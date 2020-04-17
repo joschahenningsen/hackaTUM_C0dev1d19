@@ -17,9 +17,11 @@ public class ServerConnection extends Thread {
     Socket s;
     static final String server = "openvent.joschas.page";
     static final int port = 5005;
+    final int id;
 
-    public ServerConnection(Caller c) {
+    public ServerConnection(Caller c, int id) {
         this.c = c;
+        this.id = id;
     }
 
     @Override
@@ -39,9 +41,11 @@ public class ServerConnection extends Thread {
         reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
         writer = new PrintWriter(new OutputStreamWriter(s.getOutputStream()));
 
-        String line;
+        writer.print(id);
+        writer.flush();
 
-        while ((line = reader.readLine())!=null){
+        String line;
+        while ((line = reader.readLine()) != null) {
             c.onResponse(line);
         }
     }

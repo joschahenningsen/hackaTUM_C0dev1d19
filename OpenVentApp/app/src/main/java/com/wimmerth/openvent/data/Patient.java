@@ -24,7 +24,7 @@ public class Patient implements Caller {
         vitals = new Vitals();
         this.caller = caller;
         if (caller!=null) {
-            ServerConnection sc = new ServerConnection(this);
+            ServerConnection sc = new ServerConnection(this, id);
             sc.start();
         }
     }
