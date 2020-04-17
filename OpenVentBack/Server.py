@@ -3,7 +3,7 @@ import threading
 import requests
 import json
 
-URL = 'http://api.theopenvent.com/exampledata/v1/'
+URL = 'http://api.theopenvent.com/exampledata/v2/data'
 
 
 class UpdateThread(threading.Thread):
