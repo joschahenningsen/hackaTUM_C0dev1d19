@@ -2,8 +2,8 @@
     <string name="app_name">OpenVent</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Dr. Maximilian Mustermann</string>
+    <string name="nav_header_subtitle">Oberarzt (Anästhesie)</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
@@ -13,4 +13,5 @@
 
     <string name="home_second">Home Second</string>
     <string name="patient">Patient</string>
+    <string name="navigation_header_2">Navigation header 2</string>
 </resources>
