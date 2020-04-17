@@ -8,15 +8,7 @@ import sys
 URL = 'http://api.theopenvent.com/exampledata/v2/data'
 
 
-def simulater():
-    req = requests.get(URL).json()
-    req['0']['processed']['ExpiredCO2'] = randrange(100)
-    req['0']['processed']['ExpiredO2'] = randrange(100)
-    req['0']['processed']['MVe'] = randrange(5000)
-    req['0']['processed']['frequency'] = randrange(60)
-    req['0']['processed']['volumePerMinute'] = randrange(10000)
-    req['0']['processed']['volumePerMovement'] = randrange(1000)
-    return req
+
 
 
 class UpdateThread(threading.Thread):
@@ -34,7 +26,7 @@ class UpdateThread(threading.Thread):
         while not self._stopevent.is_set():
             for c in self._recievers:
                 try:
-                    req = "%s\n" % json.dumps(simulater())
+                    req = "%s\n" % json.dumps(requests.get(URL).json()['0'])
                     c.send(req.encode())
                 except socket.error:
                     self._recievers.remove(c)
@@ -78,7 +70,7 @@ class ListenThread(threading.Thread):
         self._stopevent.set()
         threading.Thread.join(self, timeout)
 
-
+99
 if __name__ == '__main__':
     NUMBER_OF_DEVICES = 5
     TCP_PORT = 5005
