@@ -20,7 +20,7 @@ class UpdateThread(threading.Thread):
 
     def __init__(self, name='UpdateThread'):
         self._stopevent = threading.Event()
-        self._sleepperiod = 1.0
+        self._sleepperiod = 0.5
         self._recievers = []
 
         threading.Thread.__init__(self, name=name)
