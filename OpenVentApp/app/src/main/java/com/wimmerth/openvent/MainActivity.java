@@ -1,6 +1,8 @@
 package com.wimmerth.openvent;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -9,6 +11,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.wimmerth.openvent.connection.ServerConnection;
+import com.wimmerth.openvent.data.Patient;
+import com.wimmerth.openvent.ui.home.HomeFragment;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -18,14 +22,19 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+        List<Patient> patients = Patient.fromString(getSharedPreferences("patients", Context.MODE_PRIVATE).getString("list", ""));
+        System.out.println(Arrays.toString(patients.toArray()));
+        HomeFragment.patients = patients;
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -56,5 +65,14 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences prefs = getSharedPreferences("patients", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("list", Patient.toString(HomeFragment.patients));
+        editor.apply();
     }
 }

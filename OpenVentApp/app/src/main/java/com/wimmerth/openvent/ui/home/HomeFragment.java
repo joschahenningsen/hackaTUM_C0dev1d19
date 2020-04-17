@@ -35,13 +35,12 @@ public class HomeFragment extends Fragment implements PatientListAdapter.ViewHol
         ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         RecyclerView recyclerView = root.findViewById(R.id.patients);
-        patients = new ArrayList<>();
-        patients.add(new Patient("günda",1, null));
         adapter = new PatientListAdapter(patients,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(root.getContext(),DividerItemDecoration.VERTICAL));
         context = getContext();
+        adapter.notifyDataSetChanged();
         return root;
     }
 
