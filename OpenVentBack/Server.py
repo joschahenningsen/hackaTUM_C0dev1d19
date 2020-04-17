@@ -45,6 +45,7 @@ if __name__ == '__main__':
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((socket.gethostname(), TCP_PORT))
     s.listen(NUMBER_OF_DEVICES)
+    # nametest
 
     while True:
         conn, addr = s.accept()
