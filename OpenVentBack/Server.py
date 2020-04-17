@@ -63,6 +63,7 @@ class ListenThread(threading.Thread):
             try:
                 msg=self._conn.recv(1024)
                 msg=msg.decode()
+                print(msg)
                 if msg == "":
                     break
                 elif msg=='4242':
