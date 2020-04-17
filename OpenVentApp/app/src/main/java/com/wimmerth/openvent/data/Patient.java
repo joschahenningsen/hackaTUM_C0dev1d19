@@ -1,5 +1,8 @@
 package com.wimmerth.openvent.data;
 
+import android.os.Debug;
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.wimmerth.openvent.PatientDetailsActiviy;
 import com.wimmerth.openvent.connection.Caller;
@@ -76,14 +79,15 @@ public class Patient implements Caller {
 
     @Override
     public void onResponse(String line) {
+        Log.d("joscha", line);
         OpenVentResponse res = g.fromJson(line, OpenVentResponse.class);
         if (caller!=null){
             caller.addData(
-                    new Measurement(res.get0().getTime(),
-                            res.get0().getProcessed().getVolumePerMinute(),
-                            res.get0().getProcessed().getExpiredCO2(),
-                            res.get0().getProcessed().getExpiredO2(),
-                            res.get0().getProcessed().getTriggerSettings().getRR())
+                    new Measurement(res.getTime(),
+                            res.getProcessed().getVolumePerMinute(),
+                            res.getProcessed().getExpiredO2(),
+                            res.getProcessed().getExpiredCO2(),
+                            res.getProcessed().getTriggerSettings().getRR())
             );
         }
     }

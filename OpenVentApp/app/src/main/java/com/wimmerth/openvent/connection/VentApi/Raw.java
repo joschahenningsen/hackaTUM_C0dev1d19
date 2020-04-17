@@ -8,10 +8,10 @@ public class Raw {
 
     @SerializedName("CO2")
     @Expose
-    private Integer cO2;
+    private Double cO2;
     @SerializedName("O2")
     @Expose
-    private Integer o2;
+    private Double o2;
     @SerializedName("angleSensor")
     @Expose
     private Integer angleSensor;
@@ -29,24 +29,24 @@ public class Raw {
     private Integer pressure2;
     @SerializedName("temperature1")
     @Expose
-    private Integer temperature1;
+    private Double temperature1;
     @SerializedName("temperature2")
     @Expose
-    private Integer temperature2;
+    private Double temperature2;
 
-    public Integer getCO2() {
+    public Double getCO2() {
         return cO2;
     }
 
-    public void setCO2(Integer cO2) {
+    public void setCO2(Double cO2) {
         this.cO2 = cO2;
     }
 
-    public Integer getO2() {
+    public Double getO2() {
         return o2;
     }
 
-    public void setO2(Integer o2) {
+    public void setO2(Double o2) {
         this.o2 = o2;
     }
 
@@ -90,19 +90,19 @@ public class Raw {
         this.pressure2 = pressure2;
     }
 
-    public Integer getTemperature1() {
+    public Double getTemperature1() {
         return temperature1;
     }
 
-    public void setTemperature1(Integer temperature1) {
+    public void setTemperature1(Double temperature1) {
         this.temperature1 = temperature1;
     }
 
-    public Integer getTemperature2() {
+    public Double getTemperature2() {
         return temperature2;
     }
 
-    public void setTemperature2(Integer temperature2) {
+    public void setTemperature2(Double temperature2) {
         this.temperature2 = temperature2;
     }
 

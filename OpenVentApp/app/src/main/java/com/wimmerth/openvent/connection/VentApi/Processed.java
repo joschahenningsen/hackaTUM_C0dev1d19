@@ -8,19 +8,25 @@ public class Processed {
 
     @SerializedName("ExpiredCO2")
     @Expose
-    private Integer expiredCO2;
+    private Double expiredCO2;
     @SerializedName("ExpiredO2")
     @Expose
-    private Integer expiredO2;
+    private Double expiredO2;
     @SerializedName("MVe")
     @Expose
     private Integer mVe;
+    @SerializedName("flowrate")
+    @Expose
+    private Integer flowrate;
     @SerializedName("frequency")
     @Expose
     private Integer frequency;
+    @SerializedName("pressure")
+    @Expose
+    private Integer pressure;
     @SerializedName("triggerSettings")
     @Expose
-    private com.wimmerth.openvent.connection.VentApi.TriggerSettings triggerSettings;
+    private TriggerSettings triggerSettings;
     @SerializedName("ventilationMode")
     @Expose
     private String ventilationMode;
@@ -31,19 +37,19 @@ public class Processed {
     @Expose
     private Integer volumePerMovement;
 
-    public Integer getExpiredCO2() {
+    public Double getExpiredCO2() {
         return expiredCO2;
     }
 
-    public void setExpiredCO2(Integer expiredCO2) {
+    public void setExpiredCO2(Double expiredCO2) {
         this.expiredCO2 = expiredCO2;
     }
 
-    public Integer getExpiredO2() {
+    public Double getExpiredO2() {
         return expiredO2;
     }
 
-    public void setExpiredO2(Integer expiredO2) {
+    public void setExpiredO2(Double expiredO2) {
         this.expiredO2 = expiredO2;
     }
 
@@ -55,12 +61,28 @@ public class Processed {
         this.mVe = mVe;
     }
 
+    public Integer getFlowrate() {
+        return flowrate;
+    }
+
+    public void setFlowrate(Integer flowrate) {
+        this.flowrate = flowrate;
+    }
+
     public Integer getFrequency() {
         return frequency;
     }
 
     public void setFrequency(Integer frequency) {
         this.frequency = frequency;
+    }
+
+    public Integer getPressure() {
+        return pressure;
+    }
+
+    public void setPressure(Integer pressure) {
+        this.pressure = pressure;
     }
 
     public TriggerSettings getTriggerSettings() {

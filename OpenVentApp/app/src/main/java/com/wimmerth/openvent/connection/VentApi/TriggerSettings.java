@@ -30,9 +30,6 @@ public class TriggerSettings {
     @SerializedName("pressure_max")
     @Expose
     private Integer pressureMax;
-    @SerializedName("pressure_mean")
-    @Expose
-    private Integer pressureMean;
 
     public Integer getFiO2() {
         return fiO2;
@@ -96,14 +93,6 @@ public class TriggerSettings {
 
     public void setPressureMax(Integer pressureMax) {
         this.pressureMax = pressureMax;
-    }
-
-    public Integer getPressureMean() {
-        return pressureMean;
-    }
-
-    public void setPressureMean(Integer pressureMean) {
-        this.pressureMean = pressureMean;
     }
 
 }

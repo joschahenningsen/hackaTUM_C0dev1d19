@@ -1,13 +1,21 @@
 package com.wimmerth.openvent.data;
 
 public class Measurement implements Comparable{
-    private final int co2;
-    private final int o2;
+    private final double co2;
+    private final double o2;
     private final int rr;
     private int time;
     private int volumePerMovement;
 
     public Measurement(int time, int volumePerMovement, int expiredCO2, int expiredO2, int rr) {
+        this.time = time;
+        this.volumePerMovement = volumePerMovement;
+        this.co2 = expiredCO2;
+        this.o2 = expiredO2;
+        this.rr = rr;
+    }
+
+    public Measurement(int time, int volumePerMovement, double expiredO2, double expiredCO2, int rr) {
         this.time = time;
         this.volumePerMovement = volumePerMovement;
         this.co2 = expiredCO2;
@@ -23,11 +31,11 @@ public class Measurement implements Comparable{
         return volumePerMovement;
     }
 
-    public int getCo2() {
+    public double getCo2() {
         return co2;
     }
 
-    public int getO2() {
+    public double getO2() {
         return o2;
     }
 

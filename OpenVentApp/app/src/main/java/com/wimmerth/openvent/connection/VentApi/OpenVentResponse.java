@@ -6,16 +6,49 @@ import com.google.gson.annotations.SerializedName;
 
 public class OpenVentResponse {
 
-    @SerializedName("0")
+    @SerializedName("device_id")
     @Expose
-    private com.wimmerth.openvent.connection.VentApi._0 _0;
+    private Integer deviceId;
+    @SerializedName("processed")
+    @Expose
+    private Processed processed;
+    @SerializedName("raw")
+    @Expose
+    private Raw raw;
+    @SerializedName("time")
+    @Expose
+    private Integer time;
 
-    public com.wimmerth.openvent.connection.VentApi._0 get0() {
-        return _0;
+    public Integer getDeviceId() {
+        return deviceId;
     }
 
-    public void set0(com.wimmerth.openvent.connection.VentApi._0 _0) {
-        this._0 = _0;
+    public void setDeviceId(Integer deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public Processed getProcessed() {
+        return processed;
+    }
+
+    public void setProcessed(Processed processed) {
+        this.processed = processed;
+    }
+
+    public Raw getRaw() {
+        return raw;
+    }
+
+    public void setRaw(Raw raw) {
+        this.raw = raw;
+    }
+
+    public Integer getTime() {
+        return time;
+    }
+
+    public void setTime(Integer time) {
+        this.time = time;
     }
 
 }
