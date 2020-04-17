@@ -14,9 +14,13 @@ import android.widget.TextView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -31,6 +35,7 @@ public class PatientDetailsActiviy extends AppCompatActivity {
     private TextView rrTextView;
     private TextView o2TextView;
     private TextView co2TextView;
+    LineChart chart;
     LineChart l;
     Patient p;
 
@@ -61,63 +66,61 @@ public class PatientDetailsActiviy extends AppCompatActivity {
         graph.getViewport().setMaxX(40);
         graph.setTitle("Volume per minute (ml)");
 
-        l = findViewById(R.id.chart1);
-        setupChart(l, getData(100, 10f), Color.rgb(137, 230, 81));
-    }
 
-    private void setupChart(LineChart chart, LineData data, int color) {
+        //chart:
+        chart = findViewById(R.id.chart1);
 
-        ((LineDataSet) data.getDataSetByIndex(0)).setCircleHoleColor(color);
+        // enable description text
+        chart.getDescription().setEnabled(true);
 
-        chart.getDescription().setEnabled(false);
-        chart.setDrawGridBackground(false);
+        // enable touch gestures
         chart.setTouchEnabled(true);
+
+        // enable scaling and dragging
         chart.setDragEnabled(true);
         chart.setScaleEnabled(true);
-        chart.setPinchZoom(false);
-        chart.setBackgroundColor(color);
-        chart.setViewPortOffsets(10, 0, 10, 0);
+        chart.setDrawGridBackground(false);
+
+        // if disabled, scaling can be done on x- and y-axis separately
+        chart.setPinchZoom(true);
+
+        // set an alternative background color
+        chart.setBackgroundColor(Color.rgb(250,250,250));
+
+        LineData data = new LineData();
+        data.setValueTextColor(Color.BLACK);
+        data.notifyDataChanged();
+
+        // add empty data
         chart.setData(data);
+
+        // get the legend (only possible after setting data)
         Legend l = chart.getLegend();
-        l.setEnabled(false);
-        chart.getAxisLeft().setEnabled(false);
-        chart.getAxisLeft().setSpaceTop(40);
-        chart.getAxisLeft().setSpaceBottom(40);
-        chart.getAxisRight().setEnabled(false);
-        chart.getXAxis().setEnabled(false);
-        chart.animateX(2500);
-    }
 
+        // modify the legend ...
+        l.setForm(Legend.LegendForm.LINE);
+        l.setTextColor(Color.WHITE);
 
-    private LineData getData(int count, float range) {
-        ArrayList<Entry> values = new ArrayList<>();
+        XAxis xl = chart.getXAxis();
+        xl.setTextColor(Color.WHITE);
+        xl.setDrawGridLines(false);
+        xl.setAvoidFirstLastClipping(true);
+        xl.setEnabled(true);
 
-        for (int i = 0; i < count; i++) {
-            float val = (float) (Math.random() * range) + 3;
-            values.add(new Entry(i, val));
-        }
+        YAxis leftAxis = chart.getAxisLeft();
+        leftAxis.setTextColor(Color.BLACK);
+        leftAxis.setAxisMaximum(6f);
+        leftAxis.setAxisMinimum(4f);
+        leftAxis.setDrawGridLines(true);
 
-        // create a dataset and give it a type
-        LineDataSet set1 = new LineDataSet(values, "DataSet 1");
-        // set1.setFillAlpha(110);
-        // set1.setFillColor(Color.RED);
-
-        set1.setLineWidth(1.75f);
-        set1.setCircleRadius(5f);
-        set1.setCircleHoleRadius(2.5f);
-        set1.setColor(Color.WHITE);
-        set1.setCircleColor(Color.WHITE);
-        set1.setHighLightColor(Color.WHITE);
-        set1.setDrawValues(false);
-
-        // create a data object with the data sets
-        return new LineData(set1);
+        YAxis rightAxis = chart.getAxisRight();
+        rightAxis.setEnabled(false);
     }
 
     public void addData(final Measurement m) {
         Log.d("joscha", m.toString());
         if (dynSeries!=null) { // wait for initialisation
-            dynSeries.appendData(new DataPoint(m.getTime(), m.getVolumePerMovement()), true, 100);
+            dynSeries.appendData(new DataPoint(m.getTime(), m.getCo2()), true, 100);
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -126,11 +129,49 @@ public class PatientDetailsActiviy extends AppCompatActivity {
                     co2TextView.setText(""+m.getCo2());
                 }
             });
-            if (l.getLineData().getDataSetCount()==100){
-                l.getLineData().getDataSetByIndex(0).removeFirst();
-            }
-            l.getLineData().addEntry(new Entry(m.getTime(), m.getVolumePerMovement()), 0);
+        }
+        addEntry(m);
+    }
 
+
+
+    /*COMPLEX CHART:*/
+
+
+    private void addEntry(Measurement m) {
+
+        LineData data = chart.getData();
+
+        if (data != null) {
+
+            ILineDataSet set = data.getDataSetByIndex(0);
+            // set.addEntry(...); // can be called as well
+
+            if (set == null) {
+                set = createSet();
+                data.addDataSet(set);
+            }
+
+            data.addEntry(new Entry(set.getEntryCount(), (float) m.getCo2()), 0);
+            data.notifyDataChanged();
+
+            // let the chart know it's data has changed
+            chart.notifyDataSetChanged();
+
+            // limit the number of visible entries
+
+            chart.setVisibleXRangeMinimum(30);
+            chart.setVisibleXRangeMaximum(30);
+            chart.setAutoScaleMinMaxEnabled(true);
+
+            //chart.setVisibleYRange(30, 30, YAxis.AxisDependency.LEFT);
+
+            // move to the latest entry
+            chart.moveViewToX(data.getEntryCount());
+
+            // this automatically refreshes the chart (calls invalidate())
+            // chart.moveViewTo(data.getXValCount()-7, 55f,
+            // AxisDependency.LEFT);
         }
     }
 
@@ -139,5 +180,22 @@ public class PatientDetailsActiviy extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         p.close();
+    }
+
+    private LineDataSet createSet() {
+
+        LineDataSet set = new LineDataSet(null, "Dynamic Data");
+        set.setAxisDependency(YAxis.AxisDependency.LEFT);
+        set.setColor(ColorTemplate.getHoloBlue());
+        set.setCircleColor(Color.BLACK);
+        set.setLineWidth(1f);
+        set.setCircleRadius(1f);
+        set.setFillAlpha(65);
+        set.setFillColor(ColorTemplate.getHoloBlue());
+        set.setHighLightColor(Color.rgb(244, 117, 117));
+        set.setValueTextColor(Color.WHITE);
+        set.setValueTextSize(9f);
+        set.setDrawValues(false);
+        return set;
     }
 }
