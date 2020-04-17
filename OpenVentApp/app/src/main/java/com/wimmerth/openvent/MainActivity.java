@@ -42,8 +42,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
         ServerConnection sc = new ServerConnection();
         sc.start();
-        Intent i = new Intent(this, PatientDetailsActiviy.class);
-        startActivity(i);
     }
 
     @Override
