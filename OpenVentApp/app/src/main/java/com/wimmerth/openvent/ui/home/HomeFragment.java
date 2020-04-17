@@ -41,6 +41,7 @@ public class HomeFragment extends Fragment implements PatientListAdapter.ViewHol
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(root.getContext(),DividerItemDecoration.VERTICAL));
+        context = getContext();
         return root;
     }
 
