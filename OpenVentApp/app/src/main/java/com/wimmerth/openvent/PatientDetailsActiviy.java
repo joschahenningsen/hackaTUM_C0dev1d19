@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
@@ -15,14 +17,17 @@ import com.wimmerth.openvent.data.Patient;
 import java.util.List;
 
 public class PatientDetailsActiviy extends AppCompatActivity {
+    LineGraphSeries<DataPoint> dynSeries;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_details_activiy);
         Intent i = getIntent();
-        Patient p = new Patient(i.getStringExtra("name"),
-                i.getIntExtra("int", 0));
+        Patient p = new Patient(
+                i.getStringExtra("name"),
+                i.getIntExtra("int", 0),
+                this);
 
         TextView patientNameTextView = findViewById(R.id.patientName);
         TextView bedNumberTextView = findViewById(R.id.bedNumber);
@@ -30,15 +35,17 @@ public class PatientDetailsActiviy extends AppCompatActivity {
         bedNumberTextView.setText("Bett Nr.: " + p.getId());
 
         GraphView graph = (GraphView) findViewById(R.id.graph1);
-        LineGraphSeries<DataPoint> dynSeries = getSeries(p.getMeassurements());
+        dynSeries = new LineGraphSeries<>();
         graph.addSeries(dynSeries);
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(0);
+        graph.getViewport().setMaxX(40);
     }
 
-    private LineGraphSeries<DataPoint> getSeries(List<Measurement> measurements) {
-        DataPoint[] dataPoints = new DataPoint[measurements.size()];
-        for (int i = 0; i < measurements.size(); i++) {
-            dataPoints[i] = new DataPoint(measurements.get(i).getTime(), measurements.get(i).getVolumePerMovement());
-        }
-        return new LineGraphSeries<>(dataPoints);
+
+    public void addData(Measurement m) {
+        Log.d("joscha", m.toString());
+        if (dynSeries!=null) // wait for initialisation
+            dynSeries.appendData(new DataPoint(m.getTime(), m.getVolumePerMovement()), true, 40);
     }
 }

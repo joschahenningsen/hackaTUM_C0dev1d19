@@ -21,4 +21,12 @@ public class Measurement implements Comparable{
     public int compareTo(Object o) {
         return Integer.compare(time, ((Measurement)o ).getTime());
     }
+
+    @Override
+    public String toString() {
+        return "Measurement{" +
+                "time=" + time +
+                ", volumePerMovement=" + volumePerMovement +
+                '}';
+    }
 }

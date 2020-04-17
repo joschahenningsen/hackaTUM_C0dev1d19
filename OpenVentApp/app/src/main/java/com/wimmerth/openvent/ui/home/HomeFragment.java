@@ -36,7 +36,7 @@ public class HomeFragment extends Fragment implements PatientListAdapter.ViewHol
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         RecyclerView recyclerView = root.findViewById(R.id.patients);
         patients = new ArrayList<>();
-        patients.add(new Patient("günda",1));
+        patients.add(new Patient("günda",1, null));
         adapter = new PatientListAdapter(patients,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
