@@ -32,13 +32,14 @@ public class PatientDetailsActiviy extends AppCompatActivity {
     private TextView o2TextView;
     private TextView co2TextView;
     LineChart l;
+    Patient p;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_details_activiy);
         Intent i = getIntent();
-        Patient p = new Patient(
+        p = new Patient(
                 i.getStringExtra("name"),
                 i.getIntExtra("id", 0),
                 this);
@@ -131,5 +132,12 @@ public class PatientDetailsActiviy extends AppCompatActivity {
             l.getLineData().addEntry(new Entry(m.getTime(), m.getVolumePerMovement()), 0);
 
         }
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        p.close();
     }
 }

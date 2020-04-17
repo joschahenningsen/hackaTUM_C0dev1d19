@@ -12,7 +12,6 @@ import com.wimmerth.openvent.connection.VentApi.OpenVentResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 public class Patient implements Caller {
     private String name;
@@ -20,6 +19,7 @@ public class Patient implements Caller {
     private Vitals vitals;
     private PatientDetailsActiviy caller;
     private Gson g = new Gson();
+    private ServerConnection sc;
 
     public Patient(String name, int id, final PatientDetailsActiviy caller) {
         this.name = name;
@@ -27,7 +27,7 @@ public class Patient implements Caller {
         vitals = new Vitals();
         this.caller = caller;
         if (caller!=null) {
-            ServerConnection sc = new ServerConnection(this, id);
+            sc = new ServerConnection(this, id);
             sc.start();
         }
     }
@@ -90,5 +90,9 @@ public class Patient implements Caller {
                             res.getProcessed().getTriggerSettings().getRR())
             );
         }
+    }
+
+    public void close(){
+        if(sc!=null) sc.close();
     }
 }

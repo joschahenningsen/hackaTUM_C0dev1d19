@@ -49,4 +49,14 @@ public class ServerConnection extends Thread {
             c.onResponse(line);
         }
     }
+
+    public void close(){
+        if(s!=null) {
+            try {
+                s.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
