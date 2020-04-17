@@ -60,12 +60,16 @@ class ListenThread(threading.Thread):
         print("Listening")
 
         while not self._stopevent.is_set():
-            msg=self._conn.recv(1024)
-            msg=msg.decode()
-            if msg == "":
+            try:
+                msg=self._conn.recv(1024)
+                msg=msg.decode()
+                if msg == "":
+                    break
+                elif msg=='4242':
+                    self._threads[4242].add(self._conn)
+            except socket.error:
+                print("Connection Lost")
                 break
-            elif msg=='4242':
-                self._threads[4242].add(self._conn)
 
         print("Connection Lost")
 
@@ -94,7 +98,7 @@ if __name__ == '__main__':
 
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind((socket.gethostname(), TCP_PORT))
+    s.bind(('localhost', TCP_PORT))
     s.listen(NUMBER_OF_DEVICES)
 
     while True:
