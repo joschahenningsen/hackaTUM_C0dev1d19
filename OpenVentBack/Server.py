@@ -31,7 +31,6 @@ class UpdateThread(threading.Thread):
         while not self._stopevent.is_set():
             for c in self._recievers:
                 try:
-                    print('Sent Update')
                     req = "%s\n" % json.dumps(simulater())
                     c.send(req.encode())
                 except socket.error:
