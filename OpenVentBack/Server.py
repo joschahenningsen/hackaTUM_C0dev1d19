@@ -23,7 +23,7 @@ class UpdateThread(threading.Thread):
                 try:
                     print('Sent Update')
                     req = json.dumps(requests.get(URL).json())
-                    c.send("%s" % (req,))
+                    c.send(b"%s" % (req,))
                 except socket.error:
                     self._recievers.remove(c)
             self._stopevent.wait(self._sleepperiod)
