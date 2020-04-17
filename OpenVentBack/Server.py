@@ -61,7 +61,8 @@ class ListenThread(threading.Thread):
 
         while not self._stopevent.is_set():
             msg=self._conn.recv(1024)
-            if msg==4022:
+            print(msg)
+            if msg==4242:
                 self._threads[4242].add(self._conn)
 
         self._threads[4242].join()
