@@ -17,7 +17,7 @@ public class ServerConnection extends Thread {
     static final String server = "openvent.joschas.page";
     static final int port = 5005;
 
-    public ServerConnection(){
+    public ServerConnection() {
 
     }
 
@@ -26,25 +26,18 @@ public class ServerConnection extends Thread {
         try {
             communicate();
         } catch (IOException e) {
-            e.printStackTrace();
+            return;
         }
     }
 
     private void communicate() throws IOException {
-        try {
-            s = new Socket(server, port);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        s = new Socket(server, port);
+
         BufferedReader reader;
         PrintWriter writer;
-        try {
-            reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            writer = new PrintWriter(new OutputStreamWriter(s.getOutputStream()));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
+        reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
+        writer = new PrintWriter(new OutputStreamWriter(s.getOutputStream()));
+
         writer.println("hallo fabian");
         writer.flush();
         Log.d("joscha", reader.readLine());
