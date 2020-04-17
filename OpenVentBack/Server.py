@@ -1,9 +1,13 @@
 import socket
 import threading
-import time
+import requests
+import json
+
+URL = 'http://api.theopenvent.com/exampledata/v1/'
 
 
 class UpdateThread(threading.Thread):
+
     def __init__(self, name='UpdateThread'):
         self._stopevent = threading.Event()
         self._sleepperiod = 1.0
@@ -18,7 +22,8 @@ class UpdateThread(threading.Thread):
             for c in self._recievers:
                 try:
                     print('Sent Update')
-                    c.send(b'Hello\n')
+                    req = json.dumps(requests.get(URL).json())
+                    c.send(b'', req)
                 except socket.error:
                     self._recievers.remove(c)
             self._stopevent.wait(self._sleepperiod)
@@ -33,11 +38,11 @@ class UpdateThread(threading.Thread):
         if _conn is not None:
             self._recievers.append(_conn)
 
-
 if __name__ == '__main__':
     NUMBER_OF_DEVICES = 5
     TCP_PORT = 5005
     BUFFER_SIZE = 1024
+
 
     t = UpdateThread()
 
