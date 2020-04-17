@@ -22,7 +22,7 @@ class UpdateThread(threading.Thread):
             for c in self._recievers:
                 try:
                     print('Sent Update')
-                    req = json.dumps(requests.get(URL).json())
+                    req = "%s\n" % json.dumps(requests.get(URL).json())
                     c.send(req.encode())
                 except socket.error:
                     self._recievers.remove(c)
