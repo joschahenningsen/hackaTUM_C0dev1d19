@@ -3,6 +3,7 @@ import threading
 import requests
 import json
 from random import  randrange
+import sys
 
 URL = 'http://api.theopenvent.com/exampledata/v2/data'
 
@@ -57,22 +58,18 @@ class ListenThread(threading.Thread):
         threading.Thread.__init__(self, name=name)
 
     def run(self):
-        print("Listening")
-
         while not self._stopevent.is_set():
             try:
                 msg=self._conn.recv(1024)
                 msg=msg.decode()
-                print(msg)
-                if msg == "":
-                    break
-                elif msg=='4242':
-                    self._threads[4242].add(self._conn)
-            except socket.error:
-                print("Connection Lost")
+                if msg in self._threads:
+                    self._threads[msg].add(self._conn)
+            except socket.error as serr:
                 break
 
-        print("Connection Lost")
+        print("Connection %s Lost" % (self.getName(),))
+        sys.exit()
+
 
 
 
@@ -88,18 +85,17 @@ if __name__ == '__main__':
     NUMBER_OF_DEVICES = 5
     TCP_PORT = 5005
     BUFFER_SIZE = 1024
-    count =0
+    count = 1
     threads = {}
     t = UpdateThread()
 
     t.start()
-    threads[4242] = t
-
+    threads['4242'] = t
 
 
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind((socket.gethostname(), TCP_PORT))
+    s.bind(('192.168.178.51', TCP_PORT))
     s.listen(NUMBER_OF_DEVICES)
 
     while True:
