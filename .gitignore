@@ -2,3 +2,7 @@
 OpenVentBack/.idea/
 
 OpenVentApp/.idea/
+
+OpenVentBack/client.py
+
+OpenVentBack/Simulator.py
