@@ -98,7 +98,7 @@ if __name__ == '__main__':
 
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind(('localhost', TCP_PORT))
+    s.bind((socket.gethostname(), TCP_PORT))
     s.listen(NUMBER_OF_DEVICES)
 
     while True:
