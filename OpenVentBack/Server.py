@@ -2,19 +2,14 @@ import socket
 import threading
 import requests
 import json
-from random import  randrange
+from random import randrange
+import sys
 
 URL = 'http://api.theopenvent.com/exampledata/v2/data'
 
-def simulater():
-    req = requests.get(URL).json()
-    req['0']['processed']['ExpiredCO2']= randrange(100)
-    req['0']['processed']['ExpiredO2'] = randrange(100)
-    req['0']['processed']['MVe'] = randrange(5000)
-    req['0']['processed']['frequency'] = randrange(60)
-    req['0']['processed']['volumePerMinute'] = randrange(10000)
-    req['0']['processed']['volumePerMovement'] = randrange(1000)
-    return req
+
+
+
 
 class UpdateThread(threading.Thread):
 
@@ -31,7 +26,7 @@ class UpdateThread(threading.Thread):
         while not self._stopevent.is_set():
             for c in self._recievers:
                 try:
-                    req = "%s\n" % json.dumps(simulater())
+                    req = "%s\n" % json.dumps(requests.get(URL).json()['0'])
                     c.send(req.encode())
                 except socket.error:
                     self._recievers.remove(c)
@@ -43,72 +38,58 @@ class UpdateThread(threading.Thread):
         self._stopevent.set()
         threading.Thread.join(self, timeout)
 
-    def add(self,_conn=None):
+    def add(self, _conn=None):
         if _conn is not None:
             self._recievers.append(_conn)
+
+
 class ListenThread(threading.Thread):
 
     def __init__(self, name='ListenThread', _conn=None, _threads=None):
         self._stopevent = threading.Event()
         self._sleepperiod = 0.5
-        self._conn=_conn
-        self._threads=_threads
+        self._conn = _conn
+        self._threads = _threads
 
         threading.Thread.__init__(self, name=name)
 
     def run(self):
-        print("Listening")
-
         while not self._stopevent.is_set():
             try:
-                msg=self._conn.recv(1024)
-                msg=msg.decode()
-                print(msg)
-                if msg == "":
-                    break
-                elif msg=='4242':
-                    self._threads[4242].add(self._conn)
-            except socket.error:
-                print("Connection Lost")
+                msg = self._conn.recv(1024)
+                msg = msg.decode()
+                if msg in self._threads:
+                    self._threads[msg].add(self._conn)
+            except socket.error as serr:
                 break
 
-        print("Connection Lost")
-
-
-
-
+        print("Connection %s Lost" % (self.getName(),))
+        sys.exit()
 
     def join(self, timeout=None):
         self._stopevent.set()
         threading.Thread.join(self, timeout)
 
-
-
+99
 if __name__ == '__main__':
     NUMBER_OF_DEVICES = 5
     TCP_PORT = 5005
     BUFFER_SIZE = 1024
-    count =0
+    count = 1
     threads = {}
     t = UpdateThread()
 
     t.start()
-    threads[4242] = t
-
-
-
+    threads['4242'] = t
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR, 1)
     s.bind((socket.gethostname(), TCP_PORT))
     s.listen(NUMBER_OF_DEVICES)
 
     while True:
         conn, addr = s.accept()
         print('Connection address:', addr)
-        t = ListenThread(name=count, _conn=conn,_threads=threads)
+        t = ListenThread(name=count, _conn=conn, _threads=threads)
         count += 1
         t.start()
-    conn.close()
-
-
-
