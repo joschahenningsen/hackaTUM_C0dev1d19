@@ -1,17 +1,22 @@
 package com.wimmerth.openvent.data;
 
+import com.google.gson.Gson;
 import com.wimmerth.openvent.PatientDetailsActiviy;
+import com.wimmerth.openvent.connection.Caller;
+import com.wimmerth.openvent.connection.ServerConnection;
+import com.wimmerth.openvent.connection.VentApi.OpenVentResponse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class Patient {
+public class Patient implements Caller {
     private String name;
     private int id;
     private Vitals vitals;
     private PatientDetailsActiviy caller;
+    private Gson g = new Gson();
 
     public Patient(String name, int id, final PatientDetailsActiviy caller) {
         this.name = name;
@@ -19,21 +24,8 @@ public class Patient {
         vitals = new Vitals();
         this.caller = caller;
         if (caller!=null) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    int time = 0;
-                    Random r = new Random();
-                    while (true) {
-                        caller.addData(new Measurement(time++, 80 + r.nextInt(30)));
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }).start();
+            ServerConnection sc = new ServerConnection(this);
+            sc.start();
         }
     }
 
@@ -82,4 +74,11 @@ public class Patient {
     }
 
 
+    @Override
+    public void onResponse(String line) {
+        OpenVentResponse res = g.fromJson(line, OpenVentResponse.class);
+        if (caller!=null){
+            caller.addData(new Measurement(res.get0().getTime(), res.get0().getProcessed().getVolumePerMinute()));
+        }
+    }
 }

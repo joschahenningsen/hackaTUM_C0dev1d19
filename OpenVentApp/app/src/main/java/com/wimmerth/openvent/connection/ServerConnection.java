@@ -13,12 +13,13 @@ import java.net.Socket;
 import java.net.URL;
 
 public class ServerConnection extends Thread {
+    private final Caller c;
     Socket s;
     static final String server = "openvent.joschas.page";
     static final int port = 5005;
 
-    public ServerConnection() {
-
+    public ServerConnection(Caller c) {
+        this.c = c;
     }
 
     @Override
@@ -38,8 +39,10 @@ public class ServerConnection extends Thread {
         reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
         writer = new PrintWriter(new OutputStreamWriter(s.getOutputStream()));
 
-        writer.println("hallo fabian");
-        writer.flush();
-        Log.d("joscha", reader.readLine());
+        String line;
+
+        while ((line = reader.readLine())!=null){
+            c.onResponse(line);
+        }
     }
 }
