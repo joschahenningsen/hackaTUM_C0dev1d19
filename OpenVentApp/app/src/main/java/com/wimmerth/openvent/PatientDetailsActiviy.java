@@ -40,6 +40,7 @@ public class PatientDetailsActiviy extends AppCompatActivity {
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(40);
+        graph.setTitle("Volume per minute (ml)");
     }
 
 
