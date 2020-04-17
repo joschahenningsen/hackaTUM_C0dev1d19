@@ -26,7 +26,7 @@ public class PatientDetailsActiviy extends AppCompatActivity {
         Intent i = getIntent();
         Patient p = new Patient(
                 i.getStringExtra("name"),
-                i.getIntExtra("int", 0),
+                i.getIntExtra("id", 0),
                 this);
 
         TextView patientNameTextView = findViewById(R.id.patientName);
