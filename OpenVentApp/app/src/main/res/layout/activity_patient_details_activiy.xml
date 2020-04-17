@@ -10,7 +10,7 @@
         android:id="@+id/patientName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:text="Hans Thorsten Peter"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -21,6 +21,7 @@
         android:id="@+id/bedNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
         android:text="Bett 42"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toBottomOf="@+id/patientName"
@@ -50,24 +51,68 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/pulse"
+                    android:id="@+id/o2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="24dp"
-                    android:text="64 b/m"
+                    android:layout_marginEnd="32dp"
+                    android:text="40"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    app:layout_constraintEnd_toStartOf="@+id/rr"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/headerPulse"
+                    android:id="@+id/headerO2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Pulse"
-                    app:layout_constraintEnd_toEndOf="@+id/pulse"
-                    app:layout_constraintStart_toStartOf="@+id/pulse"
-                    app:layout_constraintTop_toBottomOf="@+id/pulse" />
+                    app:layout_constraintEnd_toEndOf="@+id/o2"
+                    app:layout_constraintStart_toStartOf="@+id/o2"
+                    app:layout_constraintTop_toBottomOf="@+id/o2" />
+
+                <TextView
+                    android:id="@+id/rr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="14"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                    app:layout_constraintBottom_toTopOf="@+id/headerO2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/o2" />
+
+                <TextView
+                    android:id="@+id/headerRR"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Breathes/min"
+                    app:layout_constraintEnd_toEndOf="@+id/rr"
+                    app:layout_constraintStart_toStartOf="@+id/rr"
+                    app:layout_constraintTop_toBottomOf="@+id/rr" />
+
+                <TextView
+                    android:id="@+id/co2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="24dp"
+                    android:text="5"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    app:layout_constraintBottom_toBottomOf="@+id/o2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/rr"
+                    app:layout_constraintTop_toTopOf="@+id/o2" />
+
+                <TextView
+                    android:id="@+id/headerCo2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CO2"
+                    app:layout_constraintEnd_toEndOf="@+id/co2"
+                    app:layout_constraintStart_toStartOf="@+id/co2"
+                    app:layout_constraintTop_toBottomOf="@+id/co2" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>

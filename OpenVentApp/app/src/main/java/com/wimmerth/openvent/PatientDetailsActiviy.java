@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
@@ -18,6 +19,9 @@ import java.util.List;
 
 public class PatientDetailsActiviy extends AppCompatActivity {
     LineGraphSeries<DataPoint> dynSeries;
+    private TextView rrTextView;
+    private TextView o2TextView;
+    private TextView co2TextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,10 @@ public class PatientDetailsActiviy extends AppCompatActivity {
         patientNameTextView.setText(p.getName());
         bedNumberTextView.setText("Bett Nr.: " + p.getId());
 
+        this.rrTextView = findViewById(R.id.rr);
+        this.o2TextView = findViewById(R.id.o2);
+        this.co2TextView = findViewById(R.id.co2);
+
         GraphView graph = (GraphView) findViewById(R.id.graph1);
         dynSeries = new LineGraphSeries<>();
         graph.addSeries(dynSeries);
@@ -44,9 +52,19 @@ public class PatientDetailsActiviy extends AppCompatActivity {
     }
 
 
-    public void addData(Measurement m) {
+    public void addData(final Measurement m) {
         Log.d("joscha", m.toString());
-        if (dynSeries!=null) // wait for initialisation
-            dynSeries.appendData(new DataPoint(m.getTime(), m.getVolumePerMovement()), true, 40);
+        if (dynSeries!=null) { // wait for initialisation
+            dynSeries.appendData(new DataPoint(m.getTime(), m.getVolumePerMovement()), true, 100);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    rrTextView.setText(""+m.getRr());
+                    o2TextView.setText(""+m.getO2());
+                    co2TextView.setText(""+m.getCo2());
+                }
+            });
+
+        }
     }
 }

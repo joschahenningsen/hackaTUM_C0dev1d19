@@ -80,7 +80,10 @@ public class Patient implements Caller {
         if (caller!=null){
             caller.addData(
                     new Measurement(res.get0().getTime(),
-                            res.get0().getProcessed().getVolumePerMinute())
+                            res.get0().getProcessed().getVolumePerMinute(),
+                            res.get0().getProcessed().getExpiredCO2(),
+                            res.get0().getProcessed().getExpiredO2(),
+                            res.get0().getProcessed().getTriggerSettings().getRR())
             );
         }
     }
