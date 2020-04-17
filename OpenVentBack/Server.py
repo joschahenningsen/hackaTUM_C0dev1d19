@@ -9,14 +9,23 @@ URL = 'http://api.theopenvent.com/exampledata/v2/data'
 
 
 
+def addThreads():
+    result={}
+    req=requests.get(URL).json()
+    for key, value in req.items():
+        t = UpdateThread(name="UpdateThread %s"% (key,), nr=key)
+        t.start()
+        result[str(req[key]['device_id'])]=t
 
+    return result
 
 class UpdateThread(threading.Thread):
 
-    def __init__(self, name='UpdateThread'):
+    def __init__(self, name='UpdateThread',nr=None):
         self._stopevent = threading.Event()
         self._sleepperiod = 0.5
         self._recievers = []
+        self._nr=nr
 
         threading.Thread.__init__(self, name=name)
 
@@ -26,9 +35,10 @@ class UpdateThread(threading.Thread):
         while not self._stopevent.is_set():
             for c in self._recievers:
                 try:
-                    req = "%s\n" % json.dumps(requests.get(URL).json()['0'])
+                    req = "%s\n" % json.dumps(requests.get(URL).json()[str(self._nr)])
                     c.send(req.encode())
                 except socket.error:
+                    print("Removed from %s"%(self.getName()))
                     self._recievers.remove(c)
             self._stopevent.wait(self._sleepperiod)
 
@@ -76,15 +86,11 @@ if __name__ == '__main__':
     TCP_PORT = 5005
     BUFFER_SIZE = 1024
     count = 1
-    threads = {}
-    t = UpdateThread()
-
-    t.start()
-    threads['4242'] = t
+    threads = addThreads()
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR, 1)
-    s.bind((socket.gethostname(), TCP_PORT))
+    s.bind(('192.168.178.51', TCP_PORT))
     s.listen(NUMBER_OF_DEVICES)
 
     while True:
