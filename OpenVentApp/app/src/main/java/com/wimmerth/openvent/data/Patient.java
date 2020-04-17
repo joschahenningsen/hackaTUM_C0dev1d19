@@ -78,7 +78,10 @@ public class Patient implements Caller {
     public void onResponse(String line) {
         OpenVentResponse res = g.fromJson(line, OpenVentResponse.class);
         if (caller!=null){
-            caller.addData(new Measurement(res.get0().getTime(), res.get0().getProcessed().getVolumePerMinute()));
+            caller.addData(
+                    new Measurement(res.get0().getTime(),
+                            res.get0().getProcessed().getVolumePerMinute())
+            );
         }
     }
 }
