@@ -61,17 +61,17 @@ public class HomeFragment extends Fragment implements PatientListAdapter.ViewHol
                 alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        patients.add(new Patient(nameText.getText().toString(),Integer.parseInt(idText.getText().toString()),null));
+                        patients.add(new Patient(nameText.getText().toString(), Integer.parseInt(idText.getText().toString()), null));
                     }
                 });
                 alertDialog.show();
             }
         });
         RecyclerView recyclerView = root.findViewById(R.id.patients);
-        adapter = new PatientListAdapter(patients,this);
+        adapter = new PatientListAdapter(patients, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(root.getContext(),DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(root.getContext(), DividerItemDecoration.VERTICAL));
         context = getContext();
         adapter.notifyDataSetChanged();
         return root;
@@ -80,13 +80,31 @@ public class HomeFragment extends Fragment implements PatientListAdapter.ViewHol
     @Override
     public void onItemClicked(int position) {
         Intent intent = new Intent(context.getApplicationContext(), PatientDetailsActiviy.class);
-        intent.putExtra("name",patients.get(position).getName());
-        intent.putExtra("id",patients.get(position).getId());
+        intent.putExtra("name", patients.get(position).getName());
+        intent.putExtra("id", patients.get(position).getId());
         startActivity(intent);
     }
 
     @Override
-    public boolean onItemLongClicked(int position) {
-        return false;
+    public boolean onItemLongClicked(final int position) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+        alertDialog.setTitle("Patient löschen");
+        alertDialog.setMessage(patients.get(position).getName()+" löschen?");
+        alertDialog.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                patients.remove(position);
+                adapter.notifyItemRemoved(position);
+                adapter.notifyDataSetChanged();
+            }
+        });
+        alertDialog.setNegativeButton("Nein", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        alertDialog.show();
+        return true;
     }
 }
