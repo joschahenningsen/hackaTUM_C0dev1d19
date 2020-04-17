@@ -17,7 +17,8 @@ class UpdateThread(threading.Thread):
         while not self._stopevent.is_set():
             for c in self._recievers:
                 try:
-                    c.send(b'Hello')
+                    print('Sent Update')
+                    c.send(b'Hello\n')
                 except socket.error:
                     self._recievers.remove(c)
             self._stopevent.wait(self._sleepperiod)
@@ -45,7 +46,6 @@ if __name__ == '__main__':
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((socket.gethostname(), TCP_PORT))
     s.listen(NUMBER_OF_DEVICES)
-    # nametest
 
     while True:
         conn, addr = s.accept()
