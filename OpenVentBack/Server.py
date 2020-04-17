@@ -46,16 +46,49 @@ class UpdateThread(threading.Thread):
     def add(self,_conn=None):
         if _conn is not None:
             self._recievers.append(_conn)
+class ListenThread(threading.Thread):
+
+    def __init__(self, name='ListenThread', _conn=None, _threads=None):
+        self._stopevent = threading.Event()
+        self._sleepperiod = 0.5
+        self._conn=_conn
+        self._threads=_threads
+
+        threading.Thread.__init__(self, name=name)
+
+    def run(self):
+        print("Listening")
+
+        while not self._stopevent.is_set():
+            msg=self._conn.recv(1024)
+            if msg==4022:
+                self._threads[4242].add(self._conn)
+
+        self._threads[4242].join()
+
+
+
+
+
+    def join(self, timeout=None):
+        self._stopevent.set()
+        threading.Thread.join(self, timeout)
+
+
 
 if __name__ == '__main__':
     NUMBER_OF_DEVICES = 5
     TCP_PORT = 5005
     BUFFER_SIZE = 1024
-
-
+    count =0
+    threads = {}
     t = UpdateThread()
 
     t.start()
+    threads[4242] = t
+
+
+
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((socket.gethostname(), TCP_PORT))
@@ -64,9 +97,10 @@ if __name__ == '__main__':
     while True:
         conn, addr = s.accept()
         print('Connection address:', addr)
-        t.add(conn)
+        t = ListenThread(name=count, _conn=conn,_threads=threads)
+        count += 1
+        t.start()
     conn.close()
-    t.join()
 
 
 
