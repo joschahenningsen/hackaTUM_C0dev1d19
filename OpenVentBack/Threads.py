@@ -3,9 +3,12 @@ import requests
 import socket
 import json
 import sys
+import urllib3
 
 URL = 'https://api.theopenvent.com/exampledata/v2/data'
-data = requests.get(URL, verify=False).json()
+urllib3.disable_warnings()
+data = requests.get(URL, verify=False).json()  # TODO fix ssl
+
 
 class DataFetcher(threading.Thread):
     def __init__(self, name='DataFetcher', url='https://api.theopenvent.com/exampledata/v2/data'):
@@ -98,7 +101,7 @@ class AlarmHandler(threading.Thread):
         for key, vent in data.items():
             co2 = vent['processed']['ExpiredCO2']
             if co2 > 5.2 and key not in self._alarmsTriggered:
-                print("Alarm")
+                print("Alarm ", str(vent['device_id']))
                 self._alarmsTriggered[key] = True
                 return str(vent['device_id'])
             elif co2 <= 4.8 and key in self._alarmsTriggered:
@@ -122,9 +125,45 @@ class AlarmHandler(threading.Thread):
         if _conn not in self._alarmsList[_id]:
             self._alarmsList[_id].append(_conn)
 
-
 class AlarmListener(threading.Thread):
-    def __init__(self, name='AlarmListener', threads=None, serveraddress=None):
+    def __init__(self, name='AlarmListener', _conn=None):
+        self._stopevent = threading.Event()
+        self._sleepperiod = 0.5
+        self._conn = _conn
+
+        threading.Thread.__init__(self, name=name)
+
+    def run(self):
+        while not self._stopevent.is_set():
+            try:
+                msg = self._conn.recv(1024)
+                print(msg.decode())
+                msg = msg.decode().strip().split(":")
+                msg[1] = msg[1].split(",")
+                if msg[0] == "start":
+                    print("new alarmmsg",msg)
+                    if msg[1] is not None:
+                        for mi in msg[1]:
+                            if mi in self._threads:
+                                self._handler.addalarm(_id=mi, _conn=self._conn)
+                elif msg[0] == "pause":
+                    print("neuer Datenbankeintrag")
+                    # entfrenen aus handler
+                elif msg[0] == "resume":
+                    print("wieder zurück aus pause")
+            except socket.error as serr:
+                print(serr)
+
+        print("Connection %s Lost" % (self.getName(),))
+        self._conn.close()
+        sys.exit()
+
+    def join(self, timeout=None):
+        self._stopevent.set()
+        threading.Thread.join(self, timeout)
+
+class AlarmHead(threading.Thread):
+    def __init__(self, name='AlarmHead', threads=None, serveraddress=None):
         self._threads = threads
         self._serveraddress = serveraddress
         self._handler = AlarmHandler(threads=threads)
@@ -143,14 +182,4 @@ class AlarmListener(threading.Thread):
         while True:
             aconn, aaddr = a.accept()
             print("Connection on Alarm:", aaddr)
-            try:
-                msg = aconn.recv(1024)
-                print(msg.decode())
-                msg = msg.decode().strip().split(",")
-                print(msg)
-                if msg is not None:
-                    for mi in msg:
-                        if mi in self._threads:
-                            self._handler.addalarm(_id=mi, _conn=aconn)
-            except socket.error as serr:
-                print(serr)
+
