@@ -14,6 +14,7 @@ def addThreads():
     req= data
     for key, value in req.items():
         t = UpdateThread(name="UpdateThread %s"% (key,), nr=key)
+        t.daemon=True
         t.start()
         result[str(req[key]['device_id'])]=t
 
@@ -95,35 +96,49 @@ class ListenThread(threading.Thread):
 
 class AlarmHandler(threading.Thread):
     def __init__(self, name='AlarmHandler'):
+        self._alarmsList={}
+        for key,value in threads.items():
+            self._alarmsList[key]=[]
         threading.Thread.__init__(self, name=name)
 
     def checkValues(self):
-        return True
+        return -1
 
     def run(self):
         alarmID = self.checkValues()
         if alarmID != -1:
             print("Alarm")
 
+    def addAlarm(self, _id,_conn):
+        if not _conn in self._alarmsList[_id]:
+            self._alarmsList[_id].append(_conn)
+
 
 class AlarmListener(threading.Thread):
     def __init__(self, name='AlarmListener'):
+        self._handler = AlarmHandler()
+        self._handler.daemon=True
+        self._handler.start()
 
         threading.Thread.__init__(self, name=name)
 
     def run(self):
+        print("Waiting for Connections")
         a = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        a.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)   # TODO Alllow multiple users to connect at the same time
+        a.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)   # TODO Allow multiple users to connect at the same time
         a.bind((serveraddress, ALARM_PORT))
         a.listen(NUMBER_OF_DEVICES)
-        a.accept()
         while True:
             aconn, aaddr = a.accept()
+            print("Connection on Alarm")
             try:
                 msg = aconn.recv(1024)
                 msg = msg.decode().split(str=",")
+                print(msg)
                 if msg is not None:
-                    self._threads[msg].add(self._conn)
+                    for mi in msg:
+                        if mi in threads:
+                            self._handler().addAlarm(_id=mi,_conn=aconn)
             except socket.error as serr:
                 print(serr)
 
@@ -142,9 +157,9 @@ if __name__ == '__main__':
     fetcher.daemon = True
     fetcher.start()
 
-    """alarm = AlarmListener()
+    alarm = AlarmListener()
     alarm.daemon = True
-    alarm.start()"""
+    alarm.start()
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR, 1)
