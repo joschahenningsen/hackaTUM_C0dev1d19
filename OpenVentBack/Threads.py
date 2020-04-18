@@ -155,11 +155,10 @@ class AlarmListener(threading.Thread):
                 elif msg[0] == "pause":
                     print("neuer Datenbankeintrag")
                     print(msg[1])
-                    cursor = conndb.cursor()
+                    """cursor = conndb.cursor()
                     cursor.execute("INSERT INTO screenshots (c1, c2, c3) VALUES(%s, %s, %s)", (v1, v2, v3))
                     conndb.commit()
-                    cursor.close()
-                    # entfrenen aus handler
+                    cursor.close()"""
                 elif msg[0] == "resume":
                     print(msg[1])
                     print("wieder zurück aus pause")
