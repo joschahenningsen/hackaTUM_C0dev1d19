@@ -7,11 +7,18 @@ public class Change {
     private int bedNr;
     private String oldState;
     private String newState;
+    private String descr;
 
-    public Change(int bedNr, String oldState, String newState) {
+    public Change(int bedNr, String descr,  String oldState, String newState) {
         this.bedNr = bedNr;
+        this.descr = descr;
         this.oldState = oldState;
         this.newState = newState;
+
+    }
+
+    public String getDescr() {
+        return descr;
     }
 
     public int getBed() {
@@ -38,7 +45,7 @@ public class Change {
     public static String toString(List<Change> changes){
         StringBuilder s = new StringBuilder();
         for(Change c: changes){
-            s.append(c.bedNr).append("%").append(c.oldState).append("%").append(c.newState).append("§");
+            s.append(c.bedNr).append("%").append(c.descr).append("%").append(c.oldState).append("%").append(c.newState).append("§");
         }
         return s.toString();
     }
@@ -49,7 +56,7 @@ public class Change {
         for(String s:strings){
             if(s.length()>2) {
                 String[] strings1 = s.split("%");
-                Change c = new Change(Integer.parseInt(strings1[0]),strings1[1],strings1[2]);
+                Change c = new Change(Integer.parseInt(strings1[0]),strings1[1],strings1[2],strings1[3]);
                 ret.add(c);
             }
         }

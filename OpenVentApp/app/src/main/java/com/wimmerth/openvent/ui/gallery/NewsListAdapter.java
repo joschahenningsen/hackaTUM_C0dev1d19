@@ -17,7 +17,7 @@ import java.util.List;
 public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView bedNr, prevState, newState;
+        TextView descr, bedNr, prevState, newState;
 
         ClickListener listener;
 
@@ -29,13 +29,15 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
             super(itemView);
             this.listener = listener;
             bedNr = itemView.findViewById(R.id.bedNumberNews);
+            descr = itemView.findViewById(R.id.description);
             prevState = itemView.findViewById(R.id.newsOldState);
             newState = itemView.findViewById(R.id.newsNewState);
             itemView.setOnClickListener(this);
         }
 
         void bind(Change change) {
-            bedNr.setText("Bed: " + change.getBed());
+            bedNr.setText(String.valueOf(change.getBed()));
+            descr.setText(change.getDescr());
             prevState.setText(change.getOld());
             newState.setText(change.getNew());
         }
