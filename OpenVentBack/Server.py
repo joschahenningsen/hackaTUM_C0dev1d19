@@ -152,7 +152,7 @@ class AlarmListener(threading.Thread):
                 if msg is not None:
                     for mi in msg:
                         if mi in threads:
-                            aconn.send("4242".encode())# self._handler().addAlarm(_id=mi,_conn=aconn)
+                            aconn.send("4242\n".encode())# self._handler().addAlarm(_id=mi,_conn=aconn)
             except socket.error as serr:
                 print(serr)
 
