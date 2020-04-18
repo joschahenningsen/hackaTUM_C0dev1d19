@@ -37,6 +37,7 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
     private TextView rrTextView;
     private TextView o2TextView;
     private TextView co2TextView;
+    private TextView triggerFiO2,triggerHumidity,triggerPmax,triggerRR,triggerVT,triggerPEEP,triggerIE;
     LineChart chart;
     Patient p;
 
@@ -115,6 +116,15 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
 
         YAxis rightAxis = chart.getAxisRight();
         rightAxis.setEnabled(false);
+
+        //Fill trigger data
+        triggerFiO2 = findViewById(R.id.triggerFiO2);
+        triggerHumidity = findViewById(R.id.triggerHumidity);
+        triggerIE = findViewById(R.id.triggerIE);
+        triggerPEEP = findViewById(R.id.triggerPEEP);
+        triggerPmax = findViewById(R.id.triggerPmax);
+        triggerRR = findViewById(R.id.triggerRR);
+        triggerVT = findViewById(R.id.triggerVT);
     }
 
     @Override

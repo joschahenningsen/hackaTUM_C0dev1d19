@@ -2,7 +2,6 @@ package com.wimmerth.openvent.connection;
 
 import com.wimmerth.openvent.data.Change;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BreakConnectionService extends Thread {

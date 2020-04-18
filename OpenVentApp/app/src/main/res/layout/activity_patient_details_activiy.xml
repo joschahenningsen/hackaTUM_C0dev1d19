@@ -76,7 +76,7 @@
                     android:id="@+id/headerO2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="O2"
+                    android:text="O₂"
                     app:layout_constraintEnd_toEndOf="@+id/o2"
                     app:layout_constraintStart_toStartOf="@+id/o2"
                     app:layout_constraintTop_toBottomOf="@+id/o2" />
@@ -118,7 +118,7 @@
                     android:id="@+id/headerCo2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="CO2"
+                    android:text="CO₂"
                     app:layout_constraintEnd_toEndOf="@+id/co2"
                     app:layout_constraintStart_toStartOf="@+id/co2"
                     app:layout_constraintTop_toBottomOf="@+id/co2" />
@@ -129,6 +129,118 @@
                 android:id="@+id/chart1"
                 android:layout_width="match_parent"
                 android:layout_height="200dip" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Trigger settings"
+                android:padding="10dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:stretchColumns="0,1">
+
+                <TableRow>
+
+                    <TextView
+                        android:padding="5dp"
+                        android:text="FiO₂"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:padding="5dp"
+                        android:id="@+id/triggerFiO2"
+                        android:textSize="20sp" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:padding="5dp"
+                        android:text="Humidity"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:padding="5dp"
+                        android:id="@+id/triggerHumidity"
+                        android:textSize="20sp" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:padding="5dp"
+                        android:text="Pmax"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:padding="5dp"
+                        android:id="@+id/triggerPmax"
+                        android:textSize="20sp" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:padding="5dp"
+                        android:text="RR"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:padding="5dp"
+                        android:id="@+id/triggerRR"
+                        android:textSize="20sp" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:padding="5dp"
+                        android:text="VT"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:padding="5dp"
+                        android:id="@+id/triggerVT"
+                        android:textSize="20sp" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:padding="5dp"
+                        android:text="PEEP"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:padding="5dp"
+                        android:id="@+id/triggerPEEP"
+                        android:textSize="20sp" />
+
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:padding="5dp"
+                        android:text="IE"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:padding="5dp"
+                        android:textSize="20sp"
+                        android:id="@+id/triggerIE"/>
+                </TableRow>
+
+            </TableLayout>
         </LinearLayout>
     </ScrollView>
 
