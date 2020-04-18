@@ -1,9 +1,10 @@
-import urllib3
+import psycopg2
 from Threads import *
 
+# conndb = psycopg2.connect(database="thobian", user="thobian", password="infineon", host="127.0.0.1", port="5432")
 
-urllib3.disable_warnings()
-                                      # TODO fix ssl
+print ("Opened database successfully")
+
 
 
 def addthreads():
@@ -22,7 +23,7 @@ def startthreads():
     fetcher.daemon = True
     fetcher.start()
 
-    alarm = AlarmListener(threads=threads, serveraddress=serveraddress)
+    alarm = AlarmHead(threads=threads, serveraddress=serveraddress)
     alarm.daemon = True
     alarm.start()
 
