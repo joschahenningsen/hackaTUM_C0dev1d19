@@ -115,9 +115,9 @@
                 android:layout_height="200dip" />
 
             <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart2"
-            android:layout_width="match_parent"
-            android:layout_height="200dip" />
+                android:id="@+id/chart2"
+                android:layout_width="match_parent"
+                android:layout_height="200dip" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -130,7 +130,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:stretchColumns="0,1">
+                android:stretchColumns="0,2">
 
                 <TableRow>
 
@@ -139,11 +139,33 @@
                         android:text="FiO₂"
                         android:textSize="20sp" />
 
+                    <LinearLayout
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent">
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="#BDBDBD" />
+                    </LinearLayout>
+
+
                     <TextView
                         android:id="@+id/triggerFiO2"
                         android:padding="5dp"
                         android:textSize="20sp" />
 
+                </TableRow>
+
+                <TableRow
+                    android:layout_height="1px"
+                    android:background="#BDBDBD">
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="1px"
+                        android:layout_span="2"
+                        android:text=""/>
                 </TableRow>
 
                 <TableRow>
@@ -153,11 +175,33 @@
                         android:text="Humidity"
                         android:textSize="20sp" />
 
+                    <LinearLayout
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent">
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="#BDBDBD" />
+                    </LinearLayout>
+
+
                     <TextView
                         android:id="@+id/triggerHumidity"
                         android:padding="5dp"
                         android:textSize="20sp" />
 
+                </TableRow>
+
+                <TableRow
+                    android:layout_height="1px"
+                    android:background="#BDBDBD">
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="1px"
+                        android:layout_span="2"
+                        android:text=""/>
                 </TableRow>
 
                 <TableRow>
@@ -167,11 +211,33 @@
                         android:text="Pmax"
                         android:textSize="20sp" />
 
+                    <LinearLayout
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent">
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="#BDBDBD" />
+                    </LinearLayout>
+
+
                     <TextView
                         android:id="@+id/triggerPmax"
                         android:padding="5dp"
                         android:textSize="20sp" />
 
+                </TableRow>
+
+                <TableRow
+                    android:layout_height="1px"
+                    android:background="#BDBDBD">
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="1px"
+                        android:layout_span="2"
+                        android:text=""/>
                 </TableRow>
 
                 <TableRow>
@@ -181,11 +247,33 @@
                         android:text="RR"
                         android:textSize="20sp" />
 
+                    <LinearLayout
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent">
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="#BDBDBD" />
+                    </LinearLayout>
+
+
                     <TextView
                         android:id="@+id/triggerRR"
                         android:padding="5dp"
                         android:textSize="20sp" />
 
+                </TableRow>
+
+                <TableRow
+                    android:layout_height="1px"
+                    android:background="#BDBDBD">
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="1px"
+                        android:layout_span="2"
+                        android:text=""/>
                 </TableRow>
 
                 <TableRow>
@@ -195,11 +283,33 @@
                         android:text="VT"
                         android:textSize="20sp" />
 
+                    <LinearLayout
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent">
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="#BDBDBD" />
+                    </LinearLayout>
+
+
                     <TextView
                         android:id="@+id/triggerVT"
                         android:padding="5dp"
                         android:textSize="20sp" />
 
+                </TableRow>
+
+                <TableRow
+                    android:layout_height="1px"
+                    android:background="#BDBDBD">
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="1px"
+                        android:layout_span="2"
+                        android:text=""/>
                 </TableRow>
 
                 <TableRow>
@@ -209,11 +319,33 @@
                         android:text="PEEP"
                         android:textSize="20sp" />
 
+                    <LinearLayout
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent">
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="#BDBDBD" />
+                    </LinearLayout>
+
+
                     <TextView
                         android:id="@+id/triggerPEEP"
                         android:padding="5dp"
                         android:textSize="20sp" />
 
+                </TableRow>
+
+                <TableRow
+                    android:layout_height="1px"
+                    android:background="#BDBDBD">
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="1px"
+                        android:layout_span="2"
+                        android:text=""/>
                 </TableRow>
 
                 <TableRow>
@@ -222,6 +354,17 @@
                         android:padding="5dp"
                         android:text="IE"
                         android:textSize="20sp" />
+
+                    <LinearLayout
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent">
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="#BDBDBD" />
+                    </LinearLayout>
+
 
                     <TextView
                         android:id="@+id/triggerIE"
