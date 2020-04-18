@@ -103,13 +103,19 @@ class AlarmHandler(threading.Thread):
         threading.Thread.__init__(self, name=name)
 
     def checkValues(self):
-        return -1
+        return '0'
 
     def run(self):
         while True:
             alarmID = self.checkValues()
             if alarmID != -1:
-                print("Alarm")
+                for si in self._alarmsList[alarmID]:
+                    try:
+                        si.send("Alarm\n".encode())
+                    except socket.error:
+                        print("Removed Alarm from %s" % (self.getName()))
+                        self._recievers.remove(si)
+            time.sleep(10)
 
 
     def addAlarm(self, _id,_conn):
@@ -134,10 +140,10 @@ class AlarmListener(threading.Thread):
         print("Waiting for Connections")
         while True:
             aconn, aaddr = a.accept()
-            print("Connection on Alarm")
+            print("Connection on Alarm:",addr)
             try:
                 msg = aconn.recv(1024)
-                msg = msg.decode().split(str=",")
+                msg = msg.decode().split(",")
                 print(msg)
                 if msg is not None:
                     for mi in msg:
