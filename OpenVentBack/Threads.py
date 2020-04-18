@@ -182,4 +182,7 @@ class AlarmHead(threading.Thread):
         while True:
             aconn, aaddr = a.accept()
             print("Connection on Alarm:", aaddr)
+            tr = AlarmListener(_conn=aconn)
+            tr.daemon = True
+            tr.start()
 
