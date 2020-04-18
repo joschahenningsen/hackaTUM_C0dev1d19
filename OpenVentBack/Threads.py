@@ -9,7 +9,7 @@ import psycopg2
 URL = 'https://api.theopenvent.com/exampledata/v2/data'
 urllib3.disable_warnings()
 data = requests.get(URL, verify=False).json()  # TODO fix ssl
-conndb = psycopg2.connect(database="thobian", user="thobian", password="infineon", host="127.0.0.1", port="5432")
+
 
 print ("Opened database successfully")
 
@@ -159,11 +159,17 @@ class AlarmListener(threading.Thread):
                     print(msg[1])
                     req=data
                     for key,value in req.items():
+                        conndb = psycopg2.connect(database="thobian", user="thobian", password="infineon",
+                                                  host="127.0.0.1", port="5432")
                         temp=value['processed']['triggerSettings']
                         cursor = conndb.cursor()
                         cursor.execute("INSERT INTO screenshots (fio2,ie,mve,peep,rr,vt, humidity, pressure_max, id,vent) VALUES(%d,%d, %d, %d, %d, %d, %d, %d, $token$%s$token$,$token$%s$token$)" % (temp['FiO2'],temp['IE'],temp['MVe'],temp['PEEP'],temp['RR'],temp['VT'], temp['humidity'], temp['pressure_max'],msg[1],key))
                         conndb.commit()
+                        cursor.close()
+                        conndb.close()
                 elif msg[0] == "resume":
+                    conndb = psycopg2.connect(database="thobian", user="thobian", password="infineon",
+                                              host="127.0.0.1", port="5432")
                     print(msg[1])
                     print("wieder zurück aus pause")
                     cursor = conndb.cursor()
@@ -181,6 +187,7 @@ class AlarmListener(threading.Thread):
                     cursor.execute("DELETE from screenshots where id=$token$%s$token$" % (msg[1]))
                     conndb.commit()
                     cursor.close()
+                    conndb.close()
             except socket.error as serr:
                 print(serr)
 
