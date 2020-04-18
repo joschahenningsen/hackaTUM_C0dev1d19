@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("list", Patient.toString(HomeFragment.patients));
         editor.apply();
         SharedPreferences prefs2 = getSharedPreferences("changes", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor2 = prefs.edit();
+        SharedPreferences.Editor editor2 = prefs2.edit();
         editor2.putString("list", Change.toString(GalleryFragment.changes));
         editor2.putBoolean("pause",GalleryFragment.pause);
         editor2.apply();
