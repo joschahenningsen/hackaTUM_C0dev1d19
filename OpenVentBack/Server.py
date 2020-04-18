@@ -3,6 +3,7 @@ import threading
 import requests, certifi
 import json
 import sys, urllib3
+import time
 
 URL = 'https://api.theopenvent.com/exampledata/v2/data'
 urllib3.disable_warnings()
@@ -105,9 +106,11 @@ class AlarmHandler(threading.Thread):
         return -1
 
     def run(self):
-        alarmID = self.checkValues()
-        if alarmID != -1:
-            print("Alarm")
+        while True:
+            alarmID = self.checkValues()
+            if alarmID != -1:
+                print("Alarm")
+
 
     def addAlarm(self, _id,_conn):
         if not _conn in self._alarmsList[_id]:
@@ -123,11 +126,12 @@ class AlarmListener(threading.Thread):
         threading.Thread.__init__(self, name=name)
 
     def run(self):
-        print("Waiting for Connections")
+
         a = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         a.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)   # TODO Allow multiple users to connect at the same time
         a.bind((serveraddress, ALARM_PORT))
         a.listen(NUMBER_OF_DEVICES)
+        print("Waiting for Connections")
         while True:
             aconn, aaddr = a.accept()
             print("Connection on Alarm")
