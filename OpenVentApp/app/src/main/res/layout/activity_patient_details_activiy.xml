@@ -114,11 +114,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dip" />
 
+            <TextView
+                android:id="@+id/co2desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="CO₂" />
+
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/chart2"
                 android:layout_width="match_parent"
                 android:layout_height="200dip" />
 
+            <TextView
+                android:id="@+id/o2desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="O₂" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

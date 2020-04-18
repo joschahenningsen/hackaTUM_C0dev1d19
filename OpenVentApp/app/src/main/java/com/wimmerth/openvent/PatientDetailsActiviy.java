@@ -87,8 +87,7 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
 
     private void setupChart(LineChart chart) {
         // enable description text
-        chart.getDescription().setEnabled(true);
-
+        chart.getDescription().setEnabled(false);
         // enable touch gestures
         chart.setTouchEnabled(true);
 
@@ -109,13 +108,7 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
 
         // add empty data
         chart.setData(data);
-
-        // get the legend (only possible after setting data)
-        Legend l = chart.getLegend();
-
-        // modify the legend ...
-        l.setForm(Legend.LegendForm.LINE);
-        l.setTextColor(Color.WHITE);
+        chart.getLegend().setEnabled(false);
 
         XAxis xl = chart.getXAxis();
         xl.setTextColor(Color.WHITE);
