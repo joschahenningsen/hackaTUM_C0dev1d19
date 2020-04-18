@@ -152,7 +152,7 @@ class AlarmListener(threading.Thread):
                 if msg is not None:
                     for mi in msg:
                         if mi in threads:
-                            aconn.send("4242\n".encode())# self._handler().addAlarm(_id=mi,_conn=aconn)
+                            self._handler.addAlarm(_id=mi,_conn=aconn)
             except socket.error as serr:
                 print(serr)
 
@@ -164,7 +164,7 @@ if __name__ == '__main__':
     ALARM_PORT = 5010
     BUFFER_SIZE = 1024
     count = 1
-    serveraddress = socket.gethostname()
+    serveraddress = '192.168.178.51'
     threads = addThreads()
 
     fetcher = DataFetcher()
