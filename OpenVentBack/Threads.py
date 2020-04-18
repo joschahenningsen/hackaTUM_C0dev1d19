@@ -141,8 +141,8 @@ class AlarmListener(threading.Thread):
                 msg = self._conn.recv(1024)
                 print(msg.decode())
                 msg = msg.decode().strip().split(":")
-                msg[1] = msg[1].split(",")
                 if msg[0] == "start":
+                    msg[1] = msg[1].split(",")
                     print("new alarmmsg",msg)
                     if msg[1] is not None:
                         for mi in msg[1]:
