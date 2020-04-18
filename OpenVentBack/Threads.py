@@ -168,7 +168,7 @@ class AlarmListener(threading.Thread):
                     print("wieder zurück aus pause")
                     cur = conndb.cursor()
                     print("test1")
-                    cur.execute("SELECT fio2, ie, mve, peep, rr, vt, humidity, pressure_max, vent  from screenshots where id=$token$%s$token$"%(msg[1]))
+                    # cur.execute("SELECT fio2, ie, mve, peep, rr, vt, humidity, pressure_max, vent  from screenshots where id=$token$%s$token$"%(msg[1]))
                     print("test2")
                     rows = cur.fetchall()
                     print("test3")
