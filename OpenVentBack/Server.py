@@ -112,7 +112,7 @@ class AlarmHandler(threading.Thread):
                 print("Alarm")
                 self._alarmsTriggered[key] = True
                 return str(vent['device_id'])
-            elif co2 <= 5.2 and key in self._alarmsTriggered:
+            elif co2 <= 4.8 and key in self._alarmsTriggered:
                 del self._alarmsTriggered[key]
 
         return None
@@ -123,7 +123,7 @@ class AlarmHandler(threading.Thread):
             if alarmID is not None:
                 for si in self._alarmsList[alarmID]:
                     try:
-                        si.send("%s\n" % alarmID.encode())
+                        si.send(("%s\n" % alarmID).encode())
                     except socket.error:
                         print("Removed Alarm from %s" % (self.getName()))
                         self._alarmsList[alarmID].remove(si)
