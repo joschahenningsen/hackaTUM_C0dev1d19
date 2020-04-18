@@ -1,10 +1,12 @@
 package com.wimmerth.openvent.ui.home;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,12 +18,13 @@ import java.util.List;
 public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener {
-        TextView nameTv, idTv;
+        TextView nameTv, idTv, co2Tv, o2Tv, status;
 
         ClickListener listener;
 
         public interface ClickListener {
             void onItemClicked(int position);
+
             boolean onItemLongClicked(int position);
         }
 
@@ -30,13 +33,38 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
             this.listener = listener;
             nameTv = itemView.findViewById(R.id.textName);
             idTv = itemView.findViewById(R.id.textBed);
+            co2Tv = itemView.findViewById(R.id.co2Min);
+            o2Tv = itemView.findViewById(R.id.o2Min);
+            status = itemView.findViewById(R.id.statusMin);
             itemView.setOnLongClickListener(this);
             itemView.setOnClickListener(this);
         }
 
-        void bind(Patient patient){
+        void bind(Patient patient) {
             nameTv.setText(patient.getName());
             idTv.setText(String.valueOf(patient.getId()));
+            while (patient.getApiData() == null) { // TODO DAS HIER GEHT GARNICHT!!!
+                // wenn kein netz da ist hängt sich die app auf.
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            double co2exh = patient.getApiData().getProcessed().getExpiredCO2();
+            co2Tv.setText("CO2: " + patient.getApiData().getProcessed().getExpiredCO2());
+            o2Tv.setText("O2: " + patient.getApiData().getProcessed().getExpiredO2());
+
+            if (co2exh>=5.2) {
+                status.setText("Critical");
+                status.setTextColor(Color.RED);
+            }else if (co2exh>5.0){
+                status.setText("Okay");
+                status.setTextColor(Color.YELLOW);
+            }else {
+                status.setText("Good");
+                status.setTextColor(Color.GREEN);
+            }
         }
 
         @Override
@@ -71,7 +99,7 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
         View patientView = inflater.inflate(R.layout.item_patient, parent, false);
 
         // Return a new holder instance
-        return new ViewHolder(patientView,listener);
+        return new ViewHolder(patientView, listener);
     }
 
     @Override

@@ -8,6 +8,7 @@
     android:padding="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutPatient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
@@ -50,17 +51,16 @@
             app:layout_constraintTop_toBottomOf="@+id/textName" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/o2Min"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="O2:  42.3"
-            app:layout_constraintBottom_toBottomOf="@+id/co2Min"
-            app:layout_constraintEnd_toStartOf="@+id/textView4"
+            app:layout_constraintEnd_toStartOf="@+id/statusMin"
             app:layout_constraintStart_toEndOf="@+id/co2Min"
             app:layout_constraintTop_toTopOf="@+id/co2Min" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/statusMin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Status: critical"
