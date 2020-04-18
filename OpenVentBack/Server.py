@@ -112,7 +112,7 @@ class AlarmHandler(threading.Thread):
                 print("Alarm")
                 self._alarmsTriggered[key] = True
                 return str(vent['device_id'])
-            elif co2 <= 5.2 and key in self._alarmsTriggered:
+            elif co2 <= 4.8 and key in self._alarmsTriggered:
                 del self._alarmsTriggered[key]
 
         return None
