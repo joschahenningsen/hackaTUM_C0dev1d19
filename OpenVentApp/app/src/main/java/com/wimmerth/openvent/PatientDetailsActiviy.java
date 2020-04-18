@@ -24,13 +24,15 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.wimmerth.openvent.connection.Caller;
+import com.wimmerth.openvent.connection.CallerMeassurement;
 import com.wimmerth.openvent.data.Measurement;
 import com.wimmerth.openvent.data.Patient;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PatientDetailsActiviy extends AppCompatActivity {
+public class PatientDetailsActiviy extends AppCompatActivity implements CallerMeassurement {
     LineGraphSeries<DataPoint> dynSeries;
     private TextView rrTextView;
     private TextView o2TextView;
@@ -115,7 +117,8 @@ public class PatientDetailsActiviy extends AppCompatActivity {
         rightAxis.setEnabled(false);
     }
 
-    public void addData(final Measurement m) {
+    @Override
+    public void addData(final Measurement m, int p) {
         Log.d("joscha", m.toString());
         if (dynSeries != null) { // wait for initialisation
             dynSeries.appendData(new DataPoint(m.getTime(), m.getCo2()), true, 100);

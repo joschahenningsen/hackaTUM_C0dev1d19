@@ -6,6 +6,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.wimmerth.openvent.PatientDetailsActiviy;
 import com.wimmerth.openvent.connection.Caller;
+import com.wimmerth.openvent.connection.CallerMeassurement;
 import com.wimmerth.openvent.connection.ServerConnection;
 import com.wimmerth.openvent.connection.VentApi.OpenVentResponse;
 
@@ -17,11 +18,11 @@ public class Patient implements Caller {
     private String name;
     private int id;
     private Vitals vitals;
-    private PatientDetailsActiviy caller;
+    private CallerMeassurement caller;
     private Gson g = new Gson();
     private ServerConnection sc;
 
-    public Patient(String name, int id, final PatientDetailsActiviy caller) {
+    public Patient(String name, int id, final CallerMeassurement caller) {
         this.name = name;
         this.id = id;
         vitals = new Vitals();
@@ -87,8 +88,8 @@ public class Patient implements Caller {
                             res.getProcessed().getVolumePerMinute(),
                             res.getProcessed().getExpiredO2(),
                             res.getProcessed().getExpiredCO2(),
-                            res.getProcessed().getTriggerSettings().getRR())
-            );
+                            res.getProcessed().getTriggerSettings().getRR()),
+                    id);
         }
     }
 

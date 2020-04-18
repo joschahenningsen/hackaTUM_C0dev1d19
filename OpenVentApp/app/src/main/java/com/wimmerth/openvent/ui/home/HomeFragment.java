@@ -24,12 +24,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wimmerth.openvent.PatientDetailsActiviy;
 import com.wimmerth.openvent.R;
+import com.wimmerth.openvent.connection.Caller;
+import com.wimmerth.openvent.connection.CallerMeassurement;
+import com.wimmerth.openvent.data.Measurement;
 import com.wimmerth.openvent.data.Patient;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements PatientListAdapter.ViewHolder.ClickListener {
+public class HomeFragment extends Fragment implements CallerMeassurement, PatientListAdapter.ViewHolder.ClickListener {
 
     private Context context;
     public static List<Patient> patients;
@@ -40,6 +43,7 @@ public class HomeFragment extends Fragment implements PatientListAdapter.ViewHol
         ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         FloatingActionButton fab = root.findViewById(R.id.floatingActionButton);
+        final CallerMeassurement ref = this;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,7 +65,7 @@ public class HomeFragment extends Fragment implements PatientListAdapter.ViewHol
                 alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        patients.add(new Patient(nameText.getText().toString(), Integer.parseInt(idText.getText().toString()), null));
+                        patients.add(new Patient(nameText.getText().toString(), Integer.parseInt(idText.getText().toString()), ref));
                     }
                 });
                 alertDialog.show();
@@ -106,5 +110,10 @@ public class HomeFragment extends Fragment implements PatientListAdapter.ViewHol
         });
         alertDialog.show();
         return true;
+    }
+
+    @Override
+    public void addData(Measurement m, int p) {
+
     }
 }

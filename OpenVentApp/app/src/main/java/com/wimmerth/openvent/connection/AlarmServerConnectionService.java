@@ -71,10 +71,10 @@ public class AlarmServerConnectionService extends IntentService {
         NotificationManager mNotificationManager =
                 (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("YOUR_CHANNEL_ID",
-                    "YOUR_CHANNEL_NAME",
-                    NotificationManager.IMPORTANCE_DEFAULT);
-            channel.setDescription("YOUR_NOTIFICATION_CHANNEL_DESCRIPTION");
+            NotificationChannel channel = new NotificationChannel("BEDID" + line,
+                    "BEDID" + line,
+                    NotificationManager.IMPORTANCE_HIGH);
+            channel.setDescription("MEDICAL_ALERT");
             assert mNotificationManager != null;
             mNotificationManager.createNotificationChannel(channel);
         }
@@ -84,7 +84,7 @@ public class AlarmServerConnectionService extends IntentService {
                 patientName = patient.getName();
             }
         }
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), "YOUR_CHANNEL_ID")
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), "BEDID" + line)
                 .setSmallIcon(R.mipmap.ic_launcher) // notification icon
                 .setContentTitle("OpenVent Emergency!") // title for notification
                 .setContentText("Alarm at bed " + id + "\nPatient: " + patientName)// message for notification
