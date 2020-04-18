@@ -108,7 +108,9 @@ class AlarmHandler(threading.Thread):
     def checkValues(self):
         for key,vent in data.items():
             co2 = vent['processed']['ExpiredCO2']
+            print(co2)
             if co2 > 5.2 and key not in self._alarmsTriggered:
+                print("Alarm")
                 self._alarmsTriggered[key] = True
                 return vent['device_id']
             elif co2 <= 5.2 and key in self._alarmsTriggered:
