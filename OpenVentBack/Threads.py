@@ -168,14 +168,15 @@ class AlarmListener(threading.Thread):
                     print(msg[1])
                     print("wieder zurück aus pause")
                     cur = conndb.cursor()
+                    print("test1")
                     cur.execute("SELECT fio2, ie, mve, peep, rr, vt, humidity, pressure_max, vent  from screenshots where id=$token$%s$token$"%(msg[1]))
+                    print("test2")
                     rows = cur.fetchall()
+                    print("test3")
                     dict2 = {}
-                    req = data
                     for row in rows:
-                        temp = value['processed']['triggerSettings']
                         dict2[row[9]]={'FiO2':row[0], 'IE':row[1],'MVe':row[2],'PEEP':row[4],'RR':row[5],'VT':row[6],'humidity':row[7],'pressure_max':row[8]}
-                    print("test")
+                    print("testfinal")
                     print(("%s\n" % json.dumps(dict2)))
                     self._conn.send(("%s\n" % json.dumps(dict2)).encode())
                     cur.execute("DELETE from screenshots where id=$token$%s$token$" % (msg[1]))
