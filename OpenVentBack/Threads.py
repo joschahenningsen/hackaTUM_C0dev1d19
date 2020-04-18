@@ -4,10 +4,14 @@ import socket
 import json
 import sys
 import urllib3
+import psycopg2
 
 URL = 'https://api.theopenvent.com/exampledata/v2/data'
 urllib3.disable_warnings()
 data = requests.get(URL, verify=False).json()  # TODO fix ssl
+conndb = psycopg2.connect(database="thobian", user="thobian", password="infineon", host="127.0.0.1", port="5432")
+
+print ("Opened database successfully")
 
 
 class DataFetcher(threading.Thread):
@@ -126,10 +130,12 @@ class AlarmHandler(threading.Thread):
             self._alarmsList[_id].append(_conn)
 
 class AlarmListener(threading.Thread):
-    def __init__(self, name='AlarmListener', _conn=None):
+    def __init__(self, name='AlarmListener', _conn=None,_threads=None,_handler=None):
         self._stopevent = threading.Event()
         self._sleepperiod = 0.5
         self._conn = _conn
+        self._threads=_threads
+        self._handler=_handler
 
         threading.Thread.__init__(self, name=name)
 
@@ -137,10 +143,10 @@ class AlarmListener(threading.Thread):
         while not self._stopevent.is_set():
             try:
                 msg = self._conn.recv(1024)
-                print(msg.decode())
+                print("resv")
                 msg = msg.decode().strip().split(":")
-                msg[1] = msg[1].split(",")
                 if msg[0] == "start":
+                    msg[1] = msg[1].split(",")
                     print("new alarmmsg",msg)
                     if msg[1] is not None:
                         for mi in msg[1]:
@@ -148,8 +154,13 @@ class AlarmListener(threading.Thread):
                                 self._handler.addalarm(_id=mi, _conn=self._conn)
                 elif msg[0] == "pause":
                     print("neuer Datenbankeintrag")
-                    # entfrenen aus handler
+                    print(msg[1])
+                    """cursor = conndb.cursor()
+                    cursor.execute("INSERT INTO screenshots (c1, c2, c3) VALUES(%s, %s, %s)", (v1, v2, v3))
+                    conndb.commit()
+                    cursor.close()"""
                 elif msg[0] == "resume":
+                    print(msg[1])
                     print("wieder zurück aus pause")
             except socket.error as serr:
                 print(serr)
@@ -182,4 +193,7 @@ class AlarmHead(threading.Thread):
         while True:
             aconn, aaddr = a.accept()
             print("Connection on Alarm:", aaddr)
+            tr = AlarmListener(_conn=aconn,_threads=self._threads,_handler=self._handler)
+            tr.daemon = True
+            tr.start()
 

@@ -1,9 +1,7 @@
 import psycopg2
 from Threads import *
 
-# conndb = psycopg2.connect(database="thobian", user="thobian", password="infineon", host="127.0.0.1", port="5432")
 
-print ("Opened database successfully")
 
 
 

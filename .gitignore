@@ -6,3 +6,5 @@ OpenVentApp/.idea/
 OpenVentBack/client.py
 
 OpenVentBack/Simulator.py
+
+OpenVentBack/__pycache__/Threads.cpython-37.pyc
