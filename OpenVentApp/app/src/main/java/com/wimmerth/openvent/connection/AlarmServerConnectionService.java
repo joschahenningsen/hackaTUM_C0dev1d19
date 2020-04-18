@@ -6,16 +6,19 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Debug;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.wimmerth.openvent.MainActivity;
 import com.wimmerth.openvent.R;
+import com.wimmerth.openvent.data.Change;
+import com.wimmerth.openvent.data.Changes;
 import com.wimmerth.openvent.data.Patient;
+import com.wimmerth.openvent.ui.gallery.GalleryFragment;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,6 +34,7 @@ public class AlarmServerConnectionService extends IntentService {
     static final String server = "openvent.joschas.page";
     List<Patient> patients;
     static PrintWriter writer;
+    static BufferedReader reader;
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -50,8 +54,8 @@ public class AlarmServerConnectionService extends IntentService {
             @Override
             public void run() {
                 if (writer != null) {
-                    Log.d("joscha", sig+":"+MainActivity.doctorId);
-                    writer.print(sig+":"+MainActivity.doctorId);
+                    Log.d("joscha", sig + ":" + MainActivity.doctorId);
+                    writer.print(sig + ":" + MainActivity.doctorId);
                     writer.flush();
                 }
             }
@@ -59,7 +63,6 @@ public class AlarmServerConnectionService extends IntentService {
     }
 
     public void run() throws IOException {
-        BufferedReader reader;
         Socket socket = new Socket(server, port);
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -80,7 +83,20 @@ public class AlarmServerConnectionService extends IntentService {
     }
 
     private void sendNotification(String line) {
-        int id = Integer.parseInt(line);
+        int id;
+        try {
+            id = Integer.parseInt(line);
+        } catch (NumberFormatException e) {
+            Log.d("thomas", line);
+            String json = "{\"data\":" + line + "}";
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            Changes changes = gson.fromJson(json, Changes.class);
+            List<Change> changeList = changes.getChanges();
+            GalleryFragment.changes.clear();
+            GalleryFragment.changes.addAll(changeList);
+            return;
+        }
         NotificationManager mNotificationManager =
                 (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {

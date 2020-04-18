@@ -7,12 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,8 +23,6 @@ import com.wimmerth.openvent.data.Change;
 import com.wimmerth.openvent.data.Patient;
 import com.wimmerth.openvent.ui.home.HomeFragment;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class GalleryFragment extends Fragment implements NewsListAdapter.ViewHolder.ClickListener {
@@ -42,7 +37,7 @@ public class GalleryFragment extends Fragment implements NewsListAdapter.ViewHol
         ViewModelProviders.of(this).get(GalleryViewModel.class);
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
         final Button button = root.findViewById(R.id.breakButton);
-        if(pause){
+        if (pause) {
             button.setText(R.string.endBreak);
         } else {
             button.setText(R.string.newBreak);
@@ -52,17 +47,15 @@ public class GalleryFragment extends Fragment implements NewsListAdapter.ViewHol
             public void onClick(View v) {
                 if (pause) {
                     button.setText(R.string.newBreak);
-                    BreakConnectionService.endPause(changes);
-                    System.out.println(Arrays.toString(changes.toArray()));
-                    adapter.notifyDataSetChanged();
+                    //BreakConnectionService.endPause(changes);
                     AlarmServerConnectionService.sendSignal("resume");
+                    adapter.notifyDataSetChanged();
                 } else {
                     button.setText(R.string.endBreak);
                     AlarmServerConnectionService.sendSignal("pause");
                     BreakConnectionService.startPause();
                 }
                 pause = !pause;
-                System.out.println("Pause:" + pause);
             }
         });
         RecyclerView recyclerView = root.findViewById(R.id.recViewPause);
