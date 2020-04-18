@@ -38,18 +38,19 @@ public class Patient implements Caller {
         return id;
     }
 
-    public void addCallback(CallerMeassurement c){
+    public void addCallback(CallerMeassurement c) {
         callbacks.add(c);
     }
 
-    private void notifyCallers(){
+    private void notifyCallers() {
         for (CallerMeassurement callback : callbacks) {
             callback.addData(
-                    new Measurement(apiData .getTime(),
-                            apiData .getProcessed().getVolumePerMinute(),
-                            apiData .getProcessed().getExpiredO2(),
-                            apiData .getProcessed().getExpiredCO2(),
-                            apiData .getProcessed().getTriggerSettings().getRR()),
+                    new Measurement(apiData.getTime(),
+                            apiData.getProcessed().getVolumePerMinute(),
+                            apiData.getProcessed().getExpiredO2(),
+                            apiData.getProcessed().getExpiredCO2(),
+                            apiData.getProcessed().getTriggerSettings().getRR(),
+                            apiData.getProcessed().getPressure()),
                     id);
         }
     }

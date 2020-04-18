@@ -118,8 +118,8 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
 
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.setTextColor(Color.BLACK);
-        leftAxis.setSpaceBottom(100);
-        leftAxis.setSpaceTop(100);
+        leftAxis.setSpaceBottom(50);
+        leftAxis.setSpaceTop(50);
         leftAxis.setDrawGridLines(true);
 
         YAxis rightAxis = chart.getAxisRight();
@@ -166,7 +166,7 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
 
                 switch (i) {
                     case 0:
-                        data.addEntry(new Entry(set.getEntryCount(), (float) m.getCo2()), 0);
+                        data.addEntry(new Entry(set.getEntryCount(), (float) m.getPressure()), 0);
                         break;
                     case 1:
                         data.addEntry(new Entry(set.getEntryCount(), (float) m.getO2()), 0);
@@ -181,8 +181,12 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
 
                 // limit the number of visible entries
 
-                charts[i].setVisibleXRangeMinimum(50);
-                charts[i].setVisibleXRangeMaximum(50);
+                int max = 50;
+                if (i==0){
+                    max = 20;
+                }
+                charts[i].setVisibleXRangeMinimum(max);
+                charts[i].setVisibleXRangeMaximum(max);
                 charts[i].setAutoScaleMinMaxEnabled(true);
 
                 //chart.setVisibleYRange(30, 30, YAxis.AxisDependency.LEFT);
