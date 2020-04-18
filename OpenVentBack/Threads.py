@@ -187,7 +187,7 @@ class AlarmListener(threading.Thread):
                     conndb.commit()
                     cursor.close()
                     conndb.close()
-            except socket.error as serr:
+            except Exception as serr:
                 print(serr)
 
         print("Connection %s Lost" % (self.getName(),))
