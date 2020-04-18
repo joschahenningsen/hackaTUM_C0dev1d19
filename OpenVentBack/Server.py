@@ -145,6 +145,7 @@ class AlarmListener(threading.Thread):
                 msg = aconn.recv(1024)
                 print(msg.decode())
                 msg = msg.decode().split(",")
+                del msg[-1]
                 print(msg)
                 if msg is not None:
                     for mi in msg:
