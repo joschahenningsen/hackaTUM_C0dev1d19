@@ -4,10 +4,14 @@ import socket
 import json
 import sys
 import urllib3
+import psycopg2
 
 URL = 'https://api.theopenvent.com/exampledata/v2/data'
 urllib3.disable_warnings()
 data = requests.get(URL, verify=False).json()  # TODO fix ssl
+conndb = psycopg2.connect(database="thobian", user="thobian", password="infineon", host="127.0.0.1", port="5432")
+
+print ("Opened database successfully")
 
 
 class DataFetcher(threading.Thread):
@@ -150,8 +154,13 @@ class AlarmListener(threading.Thread):
                                 self._handler.addalarm(_id=mi, _conn=self._conn)
                 elif msg[0] == "pause":
                     print("neuer Datenbankeintrag")
-                    # entfrenen aus handler
+                    print(msg[1])
+                    """cursor = conndb.cursor()
+                    cursor.execute("INSERT INTO screenshots (c1, c2, c3) VALUES(%s, %s, %s)", (v1, v2, v3))
+                    conndb.commit()
+                    cursor.close()"""
                 elif msg[0] == "resume":
+                    print(msg[1])
                     print("wieder zurück aus pause")
             except socket.error as serr:
                 print(serr)
