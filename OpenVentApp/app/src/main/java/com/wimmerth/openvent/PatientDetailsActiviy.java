@@ -5,14 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Debug;
+import android.os.Handler;
 import android.util.Log;
-import android.view.View;
-import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -21,16 +18,13 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-import com.wimmerth.openvent.connection.Caller;
 import com.wimmerth.openvent.connection.CallerMeassurement;
 import com.wimmerth.openvent.data.Measurement;
 import com.wimmerth.openvent.data.Patient;
 import com.wimmerth.openvent.ui.home.HomeFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PatientDetailsActiviy extends AppCompatActivity implements CallerMeassurement {
@@ -131,8 +125,8 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
 
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.setTextColor(Color.BLACK);
-        leftAxis.setAxisMaximum(5.5f);
-        leftAxis.setAxisMinimum(4.5f);
+        leftAxis.setSpaceBottom(100);
+        leftAxis.setSpaceTop(100);
         leftAxis.setDrawGridLines(true);
 
         YAxis rightAxis = chart.getAxisRight();
@@ -143,17 +137,15 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
     @Override
     public void addData(final Measurement m, int p) {
         Log.d("joscha", m.toString());
-        if (dynSeries != null) { // wait for initialisation
-            /*dynSeries.appendData(new DataPoint(m.getTime(), m.getCo2()), true, 100);*/
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    rrTextView.setText("" + m.getRr());
-                    o2TextView.setText("" + m.getO2());
-                    co2TextView.setText("" + m.getCo2());
-                }
-            });
-        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                rrTextView.setText("" + m.getRr());
+                o2TextView.setText("" + m.getO2());
+                co2TextView.setText("" + m.getCo2());
+            }
+        });
+
         addEntry(m);
     }
 
@@ -164,7 +156,7 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
 
     private void addEntry(Measurement m) {
         for (int i = 0; i < charts.length; i++) {
-            LineData data = charts[0].getData();
+            LineData data = charts[i].getData();
 
             if (data != null) {
 
@@ -179,7 +171,16 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
                     set = ldset;
                 }
 
-                data.addEntry(new Entry(set.getEntryCount(), (float) m.getCo2()), 0);
+                switch (i) {
+                    case 0:
+                        data.addEntry(new Entry(set.getEntryCount(), (float) m.getCo2()), 0);
+                        break;
+                    case 1:
+                        data.addEntry(new Entry(set.getEntryCount(), (float) m.getO2()), 0);
+                        break;
+                    default:
+                        break;
+                }
                 data.notifyDataChanged();
 
                 // let the chart know it's data has changed
@@ -187,8 +188,8 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
 
                 // limit the number of visible entries
 
-                charts[i].setVisibleXRangeMinimum(30);
-                charts[i].setVisibleXRangeMaximum(30);
+                charts[i].setVisibleXRangeMinimum(50);
+                charts[i].setVisibleXRangeMaximum(50);
                 charts[i].setAutoScaleMinMaxEnabled(true);
 
                 //chart.setVisibleYRange(30, 30, YAxis.AxisDependency.LEFT);
@@ -202,18 +203,17 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
             }
 
             runOnUiThread(new Runnable() {
-                              @Override
-                              public void run() {
-                                  triggerFiO2.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getFiO2()));
-                                  triggerHumidity.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getHumidity()));
-                                  triggerPmax.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getPressureMax()));
-                                  triggerRR.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getRR()));
-                                  triggerVT.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getVT()));
-                                  triggerPEEP.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getPEEP()));
-                                  triggerIE.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getIE()));
-                              }
-                          });
-
+                @Override
+                public void run() {
+                    triggerFiO2.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getFiO2()));
+                    triggerHumidity.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getHumidity()));
+                    triggerPmax.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getPressureMax()));
+                    triggerRR.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getRR()));
+                    triggerVT.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getVT()));
+                    triggerPEEP.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getPEEP()));
+                    triggerIE.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getIE()));
+                }
+            });
         }
     }
 
