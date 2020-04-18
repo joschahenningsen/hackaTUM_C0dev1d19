@@ -126,10 +126,11 @@ class AlarmHandler(threading.Thread):
             self._alarmsList[_id].append(_conn)
 
 class AlarmListener(threading.Thread):
-    def __init__(self, name='AlarmListener', _conn=None):
+    def __init__(self, name='AlarmListener', _conn=None,_threads=None):
         self._stopevent = threading.Event()
         self._sleepperiod = 0.5
         self._conn = _conn
+        self._threads=_threads
 
         threading.Thread.__init__(self, name=name)
 
@@ -182,7 +183,7 @@ class AlarmHead(threading.Thread):
         while True:
             aconn, aaddr = a.accept()
             print("Connection on Alarm:", aaddr)
-            tr = AlarmListener(_conn=aconn)
+            tr = AlarmListener(_conn=aconn,_threads=self._threads)
             tr.daemon = True
             tr.start()
 
