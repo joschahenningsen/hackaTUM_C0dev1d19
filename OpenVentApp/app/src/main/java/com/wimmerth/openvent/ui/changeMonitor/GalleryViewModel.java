@@ -1,4 +1,4 @@
-package com.wimmerth.openvent.ui.gallery;
+package com.wimmerth.openvent.ui.changeMonitor;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

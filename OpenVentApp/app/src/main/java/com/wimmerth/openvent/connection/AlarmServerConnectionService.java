@@ -18,7 +18,7 @@ import com.wimmerth.openvent.R;
 import com.wimmerth.openvent.data.Change;
 import com.wimmerth.openvent.data.Changes;
 import com.wimmerth.openvent.data.Patient;
-import com.wimmerth.openvent.ui.gallery.GalleryFragment;
+import com.wimmerth.openvent.ui.changeMonitor.GalleryFragment;
 
 import java.io.BufferedReader;
 import java.io.IOException;

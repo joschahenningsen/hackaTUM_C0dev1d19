@@ -10,7 +10,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.wimmerth.openvent.connection.AlarmServerConnectionService;
 import com.wimmerth.openvent.data.Change;
 import com.wimmerth.openvent.data.Patient;
-import com.wimmerth.openvent.ui.gallery.GalleryFragment;
+import com.wimmerth.openvent.ui.changeMonitor.GalleryFragment;
 import com.wimmerth.openvent.ui.home.HomeFragment;
 
 import androidx.navigation.NavController;
@@ -21,9 +21,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {

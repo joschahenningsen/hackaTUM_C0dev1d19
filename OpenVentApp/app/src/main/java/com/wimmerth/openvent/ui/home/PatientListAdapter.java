@@ -56,7 +56,7 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
             double co2exh = patient.getApiData().getProcessed().getExpiredCO2();
             co2Tv.setText("CO2: " + patient.getApiData().getProcessed().getExpiredCO2());
             o2Tv.setText("O2: " + patient.getApiData().getProcessed().getExpiredO2());
-            mode.setText("Mode: " + patient.getApiData().getProcessed().getVentilationMode());
+            mode.setText(patient.getApiData().getProcessed().getVentilationMode());
 
             if (co2exh>=5.2) {
                 status.setText("Critical");
