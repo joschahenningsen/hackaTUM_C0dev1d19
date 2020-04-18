@@ -135,7 +135,7 @@ if __name__ == '__main__':
     ALARM_PORT = 5010
     BUFFER_SIZE = 1024
     count = 1
-    serveraddress ='192.168.178.51'
+    serveraddress =socket.gethostname()
     threads = addThreads()
 
     fetcher = DataFetcher()
