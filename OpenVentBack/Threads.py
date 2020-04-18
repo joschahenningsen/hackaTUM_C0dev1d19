@@ -146,49 +146,50 @@ class AlarmListener(threading.Thread):
                 if msg.decode()=='':
                     break
                 print("resv")
-                msg = msg.decode().strip().split(":")
-                if msg[0] == "start":
-                    msg[1] = msg[1].split(",")
-                    print("new alarmmsg",msg)
-                    if msg[1] is not None:
-                        for mi in msg[1]:
-                            if mi in self._threads:
-                                self._handler.addalarm(_id=mi, _conn=self._conn)
-                elif msg[0] == "pause":
-                    print("neuer Datenbankeintrag")
-                    print(msg[1])
-                    req=data
-                    for key,value in req.items():
-                        conndb = psycopg2.connect(database="thobian", user="thobian", password="infineon",
-                                                  host="127.0.0.1", port="5432")
-                        temp=value['processed']['triggerSettings']
-                        cursor = conndb.cursor()
-                        cursor.execute("INSERT INTO screenshots (fio2,ie,mve,peep,rr,vt, humidity, pressure_max, id,vent) VALUES(%d,%d, %d, %d, %d, %d, %d, %d, $token$%s$token$,$token$%s$token$)" % (temp['FiO2'],temp['IE'],temp['MVe'],temp['PEEP'],temp['RR'],temp['VT'], temp['humidity'], temp['pressure_max'],msg[1],key))
-                        conndb.commit()
-                    cursor.close()
-                elif msg[0] == "resume":
+            except socket.error as serr:
+                print(serr)
+            msg = msg.decode().strip().split(":")
+            if msg[0] == "start":
+                msg[1] = msg[1].split(",")
+                print("new alarmmsg",msg)
+                if msg[1] is not None:
+                    for mi in msg[1]:
+                        if mi in self._threads:
+                            self._handler.addalarm(_id=mi, _conn=self._conn)
+            elif msg[0] == "pause":
+                print("neuer Datenbankeintrag")
+                print(msg[1])
+                req=data
+                for key,value in req.items():
                     conndb = psycopg2.connect(database="thobian", user="thobian", password="infineon",
                                               host="127.0.0.1", port="5432")
-                    print(msg[1])
-                    print("wieder zurück aus pause")
+                    temp=value['processed']['triggerSettings']
                     cursor = conndb.cursor()
-                    print("test1")
-                    # cursor.execute("SELECT fio2, ie, mve, peep, rr, vt, humidity, pressure_max, vent  from screenshots where id=$token$%s$token$"%(msg[1]))
-                    print("test2")
-                    rows = cursor.fetchall()
-                    print("test3")
-                    dict2 = {}
-                    for row in rows:
-                        dict2[row[9]]={'FiO2':row[0], 'IE':row[1],'MVe':row[2],'PEEP':row[4],'RR':row[5],'VT':row[6],'humidity':row[7],'pressure_max':row[8]}
-                    print("testfinal")
-                    print(("%s\n" % json.dumps(dict2)))
-                    self._conn.send(("%s\n" % json.dumps(dict2)).encode())
-                    cursor.execute("DELETE from screenshots where id=$token$%s$token$" % (msg[1]))
+                    cursor.execute("INSERT INTO screenshots (fio2,ie,mve,peep,rr,vt, humidity, pressure_max, id,vent) VALUES(%d,%d, %d, %d, %d, %d, %d, %d, $token$%s$token$,$token$%s$token$)" % (temp['FiO2'],temp['IE'],temp['MVe'],temp['PEEP'],temp['RR'],temp['VT'], temp['humidity'], temp['pressure_max'],msg[1],key))
                     conndb.commit()
-                    cursor.close()
-                    conndb.close()
-            except Exception as serr:
-                print(serr)
+                cursor.close()
+            elif msg[0] == "resume":
+                conndb = psycopg2.connect(database="thobian", user="thobian", password="infineon",
+                                          host="127.0.0.1", port="5432")
+                print(msg[1])
+                print("wieder zurück aus pause")
+                cursor = conndb.cursor()
+                print("test1")
+                # cursor.execute("SELECT fio2, ie, mve, peep, rr, vt, humidity, pressure_max, vent  from screenshots where id=$token$%s$token$"%(msg[1]))
+                print("test2")
+                rows = cursor.fetchall()
+                print("test3")
+                dict2 = {}
+                for row in rows:
+                    dict2[row[9]]={'FiO2':row[0], 'IE':row[1],'MVe':row[2],'PEEP':row[4],'RR':row[5],'VT':row[6],'humidity':row[7],'pressure_max':row[8]}
+                print("testfinal")
+                print(("%s\n" % json.dumps(dict2)))
+                self._conn.send(("%s\n" % json.dumps(dict2)).encode())
+                cursor.execute("DELETE from screenshots where id=$token$%s$token$" % (msg[1]))
+                conndb.commit()
+                cursor.close()
+                conndb.close()
+
 
         print("Connection %s Lost" % (self.getName(),))
         self._conn.close()
