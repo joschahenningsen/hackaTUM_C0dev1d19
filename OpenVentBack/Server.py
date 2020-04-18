@@ -112,16 +112,16 @@ class AlarmHandler(threading.Thread):
             if co2 > 5.2 and key not in self._alarmsTriggered:
                 print("Alarm")
                 self._alarmsTriggered[key] = True
-                return vent['device_id']
+                return str(vent['device_id'])
             elif co2 <= 5.2 and key in self._alarmsTriggered:
                 del self._alarmsTriggered[key]
 
-        return -1
+        return None
 
     def run(self):
         while True:
             alarmID = self.checkValues()
-            if alarmID != -1:
+            if alarmID is not None:
                 for si in self._alarmsList[alarmID]:
                     try:
                         si.send(alarmID.encode())
