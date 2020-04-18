@@ -188,6 +188,7 @@
                 android:layout_height="wrap_content"
                 android:text="FlowRate (ml/min)"
                 android:textAlignment="center" />
+
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/chart2"
                 android:layout_width="match_parent"
@@ -260,7 +261,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Humidity"
-                            android:textAlignment="textEnd"
+                            android:textAlignment="textStart"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                         <TextView
@@ -271,6 +272,17 @@
                             android:textAlignment="textEnd"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_height="1px"
+                        android:background="#BDBDBD">
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="1px"
+                            android:layout_span="2"
+                            android:text=""/>
                     </TableRow>
 
                     <TableRow
@@ -296,7 +308,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="RR"
-                            android:textAlignment="textEnd"
+                            android:textAlignment="textStart"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                         <TextView
@@ -307,6 +319,17 @@
                             android:textAlignment="textEnd"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_height="1px"
+                        android:background="#BDBDBD">
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="1px"
+                            android:layout_span="2"
+                            android:text=""/>
                     </TableRow>
 
                     <TableRow
@@ -332,7 +355,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="PEEP"
-                            android:textAlignment="textEnd"
+                            android:textAlignment="textStart"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                         <TextView
@@ -343,6 +366,17 @@
                             android:textAlignment="textEnd"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_height="1px"
+                        android:background="#BDBDBD">
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="1px"
+                            android:layout_span="2"
+                            android:text=""/>
                     </TableRow>
 
                     <TableRow
