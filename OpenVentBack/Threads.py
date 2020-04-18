@@ -166,11 +166,11 @@ class AlarmListener(threading.Thread):
                 elif msg[0] == "resume":
                     print(msg[1])
                     print("wieder zurück aus pause")
-                    cur = conndb.cursor()
+                    cursor = conndb.cursor()
                     print("test1")
-                    # cur.execute("SELECT fio2, ie, mve, peep, rr, vt, humidity, pressure_max, vent  from screenshots where id=$token$%s$token$"%(msg[1]))
+                    # cursor.execute("SELECT fio2, ie, mve, peep, rr, vt, humidity, pressure_max, vent  from screenshots where id=$token$%s$token$"%(msg[1]))
                     print("test2")
-                    rows = cur.fetchall()
+                    rows = cursor.fetchall()
                     print("test3")
                     dict2 = {}
                     for row in rows:
@@ -178,8 +178,9 @@ class AlarmListener(threading.Thread):
                     print("testfinal")
                     print(("%s\n" % json.dumps(dict2)))
                     self._conn.send(("%s\n" % json.dumps(dict2)).encode())
-                    cur.execute("DELETE from screenshots where id=$token$%s$token$" % (msg[1]))
+                    cursor.execute("DELETE from screenshots where id=$token$%s$token$" % (msg[1]))
                     conndb.commit()
+                    cursor.close()
             except socket.error as serr:
                 print(serr)
 
