@@ -15,22 +15,19 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Patient implements Caller {
+    private ArrayList<CallerMeassurement> callbacks = new ArrayList<>();
     private String name;
     private int id;
-    private Vitals vitals;
-    private CallerMeassurement caller;
     private Gson g = new Gson();
     private ServerConnection sc;
+    private OpenVentResponse apiData;
 
-    public Patient(String name, int id, final CallerMeassurement caller) {
+    public Patient(String name, int id) {
         this.name = name;
         this.id = id;
-        vitals = new Vitals();
-        this.caller = caller;
-        if (caller!=null) {
-            sc = new ServerConnection(this, id);
-            sc.start();
-        }
+        sc = new ServerConnection(this, id);
+        sc.start();
+
     }
 
     public String getName() {
@@ -41,8 +38,20 @@ public class Patient implements Caller {
         return id;
     }
 
-    public List<Measurement> getMeassurements() {
-        return vitals.getMeassurements();
+    public void addCallback(CallerMeassurement c){
+        callbacks.add(c);
+    }
+
+    private void notifyCallers(){
+        for (CallerMeassurement callback : callbacks) {
+            callback.addData(
+                    new Measurement(apiData .getTime(),
+                            apiData .getProcessed().getVolumePerMinute(),
+                            apiData .getProcessed().getExpiredO2(),
+                            apiData .getProcessed().getExpiredCO2(),
+                            apiData .getProcessed().getTriggerSettings().getRR()),
+                    id);
+        }
     }
 
     @Override
@@ -71,7 +80,7 @@ public class Patient implements Caller {
             if (s.length() >= 2) {
                 String[] strings1 = s.split("%");
                 System.out.println(Arrays.toString(strings1));
-                ret.add(new Patient(strings1[0], Integer.parseInt(strings1[1]),null));
+                ret.add(new Patient(strings1[0], Integer.parseInt(strings1[1])));
             }
         }
         return ret;
@@ -80,20 +89,17 @@ public class Patient implements Caller {
 
     @Override
     public void onResponse(String line) {
-        Log.d("joscha", line);
-        OpenVentResponse res = g.fromJson(line, OpenVentResponse.class);
-        if (caller!=null){
-            caller.addData(
-                    new Measurement(res.getTime(),
-                            res.getProcessed().getVolumePerMinute(),
-                            res.getProcessed().getExpiredO2(),
-                            res.getProcessed().getExpiredCO2(),
-                            res.getProcessed().getTriggerSettings().getRR()),
-                    id);
-        }
+        Log.d("joscha", "new Data reveiced for " + this.id);
+        apiData = g.fromJson(line, OpenVentResponse.class);
+
+        notifyCallers();
     }
 
-    public void close(){
-        if(sc!=null) sc.close();
+    public void close() {
+        //sc.close(); DONT, otherwise it will not receive data anywhere
+    }
+
+    public OpenVentResponse getApiData() {
+        return apiData;
     }
 }

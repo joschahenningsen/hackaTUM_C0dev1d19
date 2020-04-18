@@ -65,7 +65,7 @@ public class HomeFragment extends Fragment implements CallerMeassurement, Patien
                 alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        patients.add(new Patient(nameText.getText().toString(), Integer.parseInt(idText.getText().toString()), ref));
+                        patients.add(new Patient(nameText.getText().toString(), Integer.parseInt(idText.getText().toString())));
                     }
                 });
                 alertDialog.show();

@@ -28,6 +28,7 @@ import com.wimmerth.openvent.connection.Caller;
 import com.wimmerth.openvent.connection.CallerMeassurement;
 import com.wimmerth.openvent.data.Measurement;
 import com.wimmerth.openvent.data.Patient;
+import com.wimmerth.openvent.ui.home.HomeFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,11 +47,17 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_details_activiy);
         Intent i = getIntent();
-        p = new Patient(
-                i.getStringExtra("name"),
-                i.getIntExtra("id", 0),
-                this);
-
+        p = null;
+        List<Patient> patients = HomeFragment.patients;
+        for (Patient patient : patients) {
+            if(patient.getId()==i.getIntExtra("id", 0)){
+                p=patient;
+                break;
+            }
+        }
+        if (p==null)
+            p=new Patient("max mustermann", 0);
+        p.addCallback(this); // so we get a message if something changed
         TextView patientNameTextView = findViewById(R.id.patientName);
         TextView bedNumberTextView = findViewById(R.id.bedNumber);
         patientNameTextView.setText(p.getName());
@@ -186,6 +193,14 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
             // this automatically refreshes the chart (calls invalidate())
             // chart.moveViewTo(data.getXValCount()-7, 55f,
             // AxisDependency.LEFT);
+
+            triggerFiO2.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getFiO2()));
+            triggerHumidity.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getHumidity()));
+            triggerPmax.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getPressureMax()));
+            triggerRR.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getRR()));
+            triggerVT.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getVT()));
+            triggerPEEP.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getPEEP()));
+            triggerIE.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getIE()));
         }
     }
 
@@ -193,7 +208,8 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
     @Override
     protected void onPause() {
         super.onPause();
-        p.close();
+        if (p!=null)
+            p.close();
     }
 
     private LineDataSet createSet() {
