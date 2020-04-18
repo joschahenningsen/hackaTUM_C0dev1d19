@@ -143,6 +143,7 @@ class AlarmListener(threading.Thread):
             print("Connection on Alarm:",addr)
             try:
                 msg = aconn.recv(1024)
+                print(msg.decode())
                 msg = msg.decode().split(",")
                 print(msg)
                 if msg is not None:
