@@ -83,7 +83,7 @@ public class PatientDetailsActiviy extends AppCompatActivity {
         chart.setPinchZoom(true);
 
         // set an alternative background color
-        chart.setBackgroundColor(Color.rgb(250,250,250));
+        chart.setBackgroundColor(Color.rgb(250, 250, 250));
 
         LineData data = new LineData();
         data.setValueTextColor(Color.BLACK);
@@ -117,14 +117,14 @@ public class PatientDetailsActiviy extends AppCompatActivity {
 
     public void addData(final Measurement m) {
         Log.d("joscha", m.toString());
-        if (dynSeries!=null) { // wait for initialisation
+        if (dynSeries != null) { // wait for initialisation
             dynSeries.appendData(new DataPoint(m.getTime(), m.getCo2()), true, 100);
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    rrTextView.setText(""+m.getRr());
-                    o2TextView.setText(""+m.getO2());
-                    co2TextView.setText(""+m.getCo2());
+                    rrTextView.setText("" + m.getRr());
+                    o2TextView.setText("" + m.getO2());
+                    co2TextView.setText("" + m.getCo2());
                 }
             });
         }
