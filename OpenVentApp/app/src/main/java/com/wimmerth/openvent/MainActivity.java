@@ -4,14 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Menu;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
-import com.wimmerth.openvent.connection.AlarmServerConnection;
-import com.wimmerth.openvent.connection.ServerConnection;
+import com.wimmerth.openvent.connection.AlarmServerConnectionService;
 import com.wimmerth.openvent.data.Patient;
 import com.wimmerth.openvent.ui.home.HomeFragment;
 
@@ -51,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         //TODO
-        //AlarmServerConnection alarmServerConnection = new AlarmServerConnection(this);
-        //alarmServerConnection.start();
+        Intent serviceIntent = new Intent(this, AlarmServerConnectionService.class);
+        startService(serviceIntent);
     }
 
     @Override
