@@ -8,7 +8,9 @@ import android.view.Menu;
 
 import com.google.android.material.navigation.NavigationView;
 import com.wimmerth.openvent.connection.AlarmServerConnectionService;
+import com.wimmerth.openvent.data.Change;
 import com.wimmerth.openvent.data.Patient;
+import com.wimmerth.openvent.ui.gallery.GalleryFragment;
 import com.wimmerth.openvent.ui.home.HomeFragment;
 
 import androidx.navigation.NavController;
@@ -29,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        List<Patient> patients = Patient.fromString(getSharedPreferences("patients", Context.MODE_PRIVATE).getString("list", ""));
-        System.out.println(Arrays.toString(patients.toArray()));
-        HomeFragment.patients = patients;
+        HomeFragment.patients = Patient.fromString(getSharedPreferences("patients", Context.MODE_PRIVATE).getString("list", ""));
+        GalleryFragment.pause = getSharedPreferences("changes",MODE_PRIVATE).getBoolean("pause",false);
+        GalleryFragment.changes = Change.fromString(getSharedPreferences("changes",MODE_PRIVATE).getString("list",""));
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -72,5 +74,10 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("list", Patient.toString(HomeFragment.patients));
         editor.apply();
+        SharedPreferences prefs2 = getSharedPreferences("changes", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor2 = prefs.edit();
+        editor2.putString("list", Change.toString(GalleryFragment.changes));
+        editor2.putBoolean("pause",GalleryFragment.pause);
+        editor2.apply();
     }
 }
