@@ -37,18 +37,37 @@
             android:layout_height="wrap_content"
             android:text="@string/patient"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/textName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textName" />
+
+        <TextView
+            android:id="@+id/co2Min"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CO2: 3.7"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textName" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:layout_constraintStart_toStartOf="@+id/textName"
-            app:layout_constraintTop_toBottomOf="parent" />
+            android:text="O2:  42.3"
+            app:layout_constraintBottom_toBottomOf="@+id/co2Min"
+            app:layout_constraintEnd_toStartOf="@+id/textView4"
+            app:layout_constraintStart_toEndOf="@+id/co2Min"
+            app:layout_constraintTop_toTopOf="@+id/co2Min" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status: critical"
+            android:textColor="#FFC107"
+            app:layout_constraintBottom_toBottomOf="@+id/co2Min"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/co2Min" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

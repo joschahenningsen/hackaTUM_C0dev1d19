@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.wimmerth.openvent.PatientDetailsActiviy;
 import com.wimmerth.openvent.R;
+import com.wimmerth.openvent.connection.AlarmServerConnectionService;
 import com.wimmerth.openvent.connection.BreakConnectionService;
 import com.wimmerth.openvent.data.Change;
 import com.wimmerth.openvent.data.Patient;
@@ -54,8 +55,10 @@ public class GalleryFragment extends Fragment implements NewsListAdapter.ViewHol
                     BreakConnectionService.endPause(changes);
                     System.out.println(Arrays.toString(changes.toArray()));
                     adapter.notifyDataSetChanged();
+                    AlarmServerConnectionService.sendSignal("resume");
                 } else {
                     button.setText(R.string.endBreak);
+                    AlarmServerConnectionService.sendSignal("pause");
                     BreakConnectionService.startPause();
                 }
                 pause = !pause;
