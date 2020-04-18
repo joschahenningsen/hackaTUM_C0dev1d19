@@ -174,12 +174,12 @@ class AlarmListener(threading.Thread):
                 cursor = conndb.cursor()
                 cursor.execute("SELECT fio2, ie, mve, peep, rr, vt, humidity, pressure_max, vent  from screenshots where id=$token$%s$token$"%(msg[1]))
                 rows = cursor.fetchall()
-                print("test3")
+
                 dict2 = {}
                 req = data
                 for row in rows:
                     temp=req[row[8]]['processed']['triggerSettings']
-                    dict2[row[8]]={'FiO2_Old':row[0],'FiO2':temp['FiO2'], 'IE_Old':row[1],'IE':temp['IE'],'MVe_Old':row[2],'MVe':temp['MVe'],'PEEP_Old':row[3],'PEEP':temp['PEEP'],'RR_Old':row[4],'RR':temp['RR'],'VT_Old':row[5],'VT':temp['VT'],'humidity_Old':row[6],'humidity':temp['humidity'],'pressure_max_Old':row[7],'pressure_max':temp['pressure_max']}
+                    dict2[row[8]]={'device_id':req[row[8]]['device_id'],'FiO2_Old':row[0],'FiO2':temp['FiO2'], 'IE_Old':row[1],'IE':temp['IE'],'MVe_Old':row[2],'MVe':temp['MVe'],'PEEP_Old':row[3],'PEEP':temp['PEEP'],'RR_Old':row[4],'RR':temp['RR'],'VT_Old':row[5],'VT':temp['VT'],'humidity_Old':row[6],'humidity':temp['humidity'],'pressure_max_Old':row[7],'pressure_max':temp['pressure_max']}
                 self._conn.send(("%s\n" % json.dumps(dict2)).encode())
                 cursor.execute("DELETE from screenshots where id=$token$%s$token$" % (msg[1]))
                 conndb.commit()
