@@ -19,7 +19,7 @@ import java.util.List;
 public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener {
-        TextView nameTv, idTv, co2Tv, o2Tv, status;
+        TextView nameTv, idTv, co2Tv, o2Tv, status, mode;
 
         ClickListener listener;
 
@@ -37,6 +37,7 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
             co2Tv = itemView.findViewById(R.id.co2Min);
             o2Tv = itemView.findViewById(R.id.o2Min);
             status = itemView.findViewById(R.id.statusMin);
+            mode = itemView.findViewById(R.id.currentMode);
             itemView.setOnLongClickListener(this);
             itemView.setOnClickListener(this);
         }
@@ -55,6 +56,7 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
             double co2exh = patient.getApiData().getProcessed().getExpiredCO2();
             co2Tv.setText("CO2: " + patient.getApiData().getProcessed().getExpiredCO2());
             o2Tv.setText("O2: " + patient.getApiData().getProcessed().getExpiredO2());
+            mode.setText("Mode: " + patient.getApiData().getProcessed().getVentilationMode());
 
             if (co2exh>=5.2) {
                 status.setText("Critical");

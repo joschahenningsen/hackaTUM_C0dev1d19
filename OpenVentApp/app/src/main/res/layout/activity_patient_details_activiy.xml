@@ -130,8 +130,32 @@
                 android:id="@+id/o2desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:text="O₂" />
+                android:text="FlowRate (ml/min)"
+                android:textAlignment="center" />
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart3"
+                android:layout_width="match_parent"
+                android:layout_height="200dip" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Volume per Movement"
+                android:textAlignment="center" />
+
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart4"
+                android:layout_width="match_parent"
+                android:layout_height="200dip" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CO2 Exhaled"
+                android:textAlignment="center" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

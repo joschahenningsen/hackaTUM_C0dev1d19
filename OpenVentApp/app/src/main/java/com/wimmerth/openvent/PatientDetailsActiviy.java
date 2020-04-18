@@ -33,7 +33,7 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
     private TextView o2TextView;
     private TextView co2TextView;
     private TextView triggerFiO2, triggerHumidity, triggerPmax, triggerRR, triggerVT, triggerPEEP, triggerIE;
-    LineChart[] charts = new LineChart[2];
+    LineChart[] charts = new LineChart[4];
     Patient p;
 
     @Override
@@ -74,6 +74,12 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
 
         charts[1] = findViewById(R.id.chart2);
         setupChart(charts[1]);
+
+        charts[2] = findViewById(R.id.chart3);
+        setupChart(charts[2]);
+
+        charts[3] = findViewById(R.id.chart4);
+        setupChart(charts[3]);
 
         //Fill trigger data
         triggerFiO2 = findViewById(R.id.triggerFiO2);
@@ -169,7 +175,13 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
                         data.addEntry(new Entry(set.getEntryCount(), (float) m.getPressure()), 0);
                         break;
                     case 1:
-                        data.addEntry(new Entry(set.getEntryCount(), (float) m.getO2()), 0);
+                        data.addEntry(new Entry(set.getEntryCount(), (float) m.getFlowRate()), 0);
+                        break;
+                    case 2:
+                        data.addEntry(new Entry(set.getEntryCount(), (float) m.getVolumePerMovement()), 0);
+                        break;
+                    case 3:
+                        data.addEntry(new Entry(set.getEntryCount(), (float) m.getCo2()), 0);
                         break;
                     default:
                         break;
