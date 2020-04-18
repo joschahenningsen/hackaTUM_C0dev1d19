@@ -50,7 +50,8 @@ public class Patient implements Caller {
                             apiData.getProcessed().getExpiredO2(),
                             apiData.getProcessed().getExpiredCO2(),
                             apiData.getProcessed().getTriggerSettings().getRR(),
-                            apiData.getProcessed().getPressure()),
+                            apiData.getProcessed().getPressure(),
+                            apiData.getProcessed().getFlowrate()),
                     id);
         }
     }
