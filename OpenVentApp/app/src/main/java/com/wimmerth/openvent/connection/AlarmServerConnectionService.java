@@ -30,6 +30,7 @@ public class AlarmServerConnectionService extends IntentService {
     static final int port = 5010;
     static final String server = "openvent.joschas.page";
     List<Patient> patients;
+    static PrintWriter writer;
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -44,9 +45,21 @@ public class AlarmServerConnectionService extends IntentService {
         super("AlarmServerConnectionService");
     }
 
+    public static void sendSignal(final String sig) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (writer != null) {
+                    Log.d("joscha", sig+":"+MainActivity.doctorId);
+                    writer.print(sig+":"+MainActivity.doctorId);
+                    writer.flush();
+                }
+            }
+        }).start();
+    }
+
     public void run() throws IOException {
         BufferedReader reader;
-        PrintWriter writer;
         Socket socket = new Socket(server, port);
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));

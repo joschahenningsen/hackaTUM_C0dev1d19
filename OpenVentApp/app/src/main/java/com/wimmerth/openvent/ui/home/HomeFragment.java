@@ -26,6 +26,7 @@ import com.wimmerth.openvent.PatientDetailsActiviy;
 import com.wimmerth.openvent.R;
 import com.wimmerth.openvent.connection.Caller;
 import com.wimmerth.openvent.connection.CallerMeassurement;
+import com.wimmerth.openvent.data.Change;
 import com.wimmerth.openvent.data.Measurement;
 import com.wimmerth.openvent.data.Patient;
 
