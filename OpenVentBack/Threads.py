@@ -163,6 +163,7 @@ class AlarmListener(threading.Thread):
                         cursor = conndb.cursor()
                         cursor.execute("INSERT INTO screenshots (fio2,ie,mve,peep,rr,vt, humidity, pressure_max, id,vent) VALUES(%d,%d, %d, %d, %d, %d, %d, %d, $token$%s$token$,$token$%s$token$)" % (temp['FiO2'],temp['IE'],temp['MVe'],temp['PEEP'],temp['RR'],temp['VT'], temp['humidity'], temp['pressure_max'],msg[1],key))
                         conndb.commit()
+                        cursor.close()
                 elif msg[0] == "resume":
                     print(msg[1])
                     print("wieder zurück aus pause")
@@ -180,7 +181,6 @@ class AlarmListener(threading.Thread):
                     self._conn.send(("%s\n" % json.dumps(dict2)).encode())
                     cursor.execute("DELETE from screenshots where id=$token$%s$token$" % (msg[1]))
                     conndb.commit()
-                    cursor.close()
             except socket.error as serr:
                 print(serr)
 
