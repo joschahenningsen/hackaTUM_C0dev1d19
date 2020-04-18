@@ -108,7 +108,6 @@ class AlarmHandler(threading.Thread):
     def checkValues(self):
         for key,vent in data.items():
             co2 = vent['processed']['ExpiredCO2']
-            print(co2)
             if co2 > 5.2 and key not in self._alarmsTriggered:
                 print("Alarm")
                 self._alarmsTriggered[key] = True
@@ -124,7 +123,7 @@ class AlarmHandler(threading.Thread):
             if alarmID is not None:
                 for si in self._alarmsList[alarmID]:
                     try:
-                        si.send(alarmID.encode())
+                        si.send("%s\n" % alarmID.encode())
                     except socket.error:
                         print("Removed Alarm from %s" % (self.getName()))
                         self._alarmsList[alarmID].remove(si)
