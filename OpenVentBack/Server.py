@@ -28,7 +28,7 @@ def startthreads():
 if __name__ == '__main__':
     BUFFER_SIZE = 1024
     count = 1
-    serveraddress = socket.gethostname()
+    serveraddress = '192.168.178.51'
     threads = addthreads()
 
     startthreads()
