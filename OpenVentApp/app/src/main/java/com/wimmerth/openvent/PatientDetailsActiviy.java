@@ -38,8 +38,8 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
     private TextView rrTextView;
     private TextView o2TextView;
     private TextView co2TextView;
-    private TextView triggerFiO2,triggerHumidity,triggerPmax,triggerRR,triggerVT,triggerPEEP,triggerIE;
-    LineChart chart;
+    private TextView triggerFiO2, triggerHumidity, triggerPmax, triggerRR, triggerVT, triggerPEEP, triggerIE;
+    LineChart[] charts = new LineChart[2];
     Patient p;
 
     @Override
@@ -50,13 +50,13 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
         p = null;
         List<Patient> patients = HomeFragment.patients;
         for (Patient patient : patients) {
-            if(patient.getId()==i.getIntExtra("id", 0)){
-                p=patient;
+            if (patient.getId() == i.getIntExtra("id", 0)) {
+                p = patient;
                 break;
             }
         }
-        if (p==null)
-            p=new Patient("max mustermann", 0);
+        if (p == null)
+            p = new Patient("max mustermann", 0);
         p.addCallback(this); // so we get a message if something changed
         TextView patientNameTextView = findViewById(R.id.patientName);
         TextView bedNumberTextView = findViewById(R.id.bedNumber);
@@ -67,17 +67,31 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
         this.o2TextView = findViewById(R.id.o2);
         this.co2TextView = findViewById(R.id.co2);
 
-        GraphView graph = (GraphView) findViewById(R.id.graph1);
+        /*GraphView graph = (GraphView) findViewById(R.id.graph1);
         dynSeries = new LineGraphSeries<>();
         graph.addSeries(dynSeries);
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(40);
-        graph.setTitle("Volume per minute (ml)");
+        graph.setTitle("Volume per minute (ml)");*/
 
-        //chart:
-        chart = findViewById(R.id.chart1);
+        charts[0] = findViewById(R.id.chart1);
+        setupChart(charts[0]);
 
+        charts[1] = findViewById(R.id.chart2);
+        setupChart(charts[1]);
+
+        //Fill trigger data
+        triggerFiO2 = findViewById(R.id.triggerFiO2);
+        triggerHumidity = findViewById(R.id.triggerHumidity);
+        triggerIE = findViewById(R.id.triggerIE);
+        triggerPEEP = findViewById(R.id.triggerPEEP);
+        triggerPmax = findViewById(R.id.triggerPmax);
+        triggerRR = findViewById(R.id.triggerRR);
+        triggerVT = findViewById(R.id.triggerVT);
+    }
+
+    private void setupChart(LineChart chart) {
         // enable description text
         chart.getDescription().setEnabled(true);
 
@@ -123,22 +137,14 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
 
         YAxis rightAxis = chart.getAxisRight();
         rightAxis.setEnabled(false);
-
-        //Fill trigger data
-        triggerFiO2 = findViewById(R.id.triggerFiO2);
-        triggerHumidity = findViewById(R.id.triggerHumidity);
-        triggerIE = findViewById(R.id.triggerIE);
-        triggerPEEP = findViewById(R.id.triggerPEEP);
-        triggerPmax = findViewById(R.id.triggerPmax);
-        triggerRR = findViewById(R.id.triggerRR);
-        triggerVT = findViewById(R.id.triggerVT);
     }
+
 
     @Override
     public void addData(final Measurement m, int p) {
         Log.d("joscha", m.toString());
         if (dynSeries != null) { // wait for initialisation
-            dynSeries.appendData(new DataPoint(m.getTime(), m.getCo2()), true, 100);
+            /*dynSeries.appendData(new DataPoint(m.getTime(), m.getCo2()), true, 100);*/
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -157,50 +163,57 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
 
 
     private void addEntry(Measurement m) {
+        for (int i = 0; i < charts.length; i++) {
+            LineData data = charts[0].getData();
 
-        LineData data = chart.getData();
+            if (data != null) {
 
-        if (data != null) {
+                ILineDataSet set = data.getDataSetByIndex(0);
+                // set.addEntry(...); // can be called as well
 
-            ILineDataSet set = data.getDataSetByIndex(0);
-            // set.addEntry(...); // can be called as well
+                if (set == null) {
+                    LineDataSet ldset = createSet();
+                    ldset.setDrawFilled(true);
+                    data.addDataSet(ldset);
+                    ldset.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                    set = ldset;
+                }
 
-            if (set == null) {
-                LineDataSet ldset = createSet();
-                ldset.setDrawFilled(true);
-                data.addDataSet(ldset);
-                ldset.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-                set = ldset;
+                data.addEntry(new Entry(set.getEntryCount(), (float) m.getCo2()), 0);
+                data.notifyDataChanged();
+
+                // let the chart know it's data has changed
+                charts[i].notifyDataSetChanged();
+
+                // limit the number of visible entries
+
+                charts[i].setVisibleXRangeMinimum(30);
+                charts[i].setVisibleXRangeMaximum(30);
+                charts[i].setAutoScaleMinMaxEnabled(true);
+
+                //chart.setVisibleYRange(30, 30, YAxis.AxisDependency.LEFT);
+
+                // move to the latest entry
+                charts[i].moveViewToX(data.getEntryCount());
+
+                // this automatically refreshes the chart (calls invalidate())
+                // chart.moveViewTo(data.getXValCount()-7, 55f,
+                // AxisDependency.LEFT);
             }
 
-            data.addEntry(new Entry(set.getEntryCount(), (float) m.getCo2()), 0);
-            data.notifyDataChanged();
+            runOnUiThread(new Runnable() {
+                              @Override
+                              public void run() {
+                                  triggerFiO2.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getFiO2()));
+                                  triggerHumidity.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getHumidity()));
+                                  triggerPmax.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getPressureMax()));
+                                  triggerRR.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getRR()));
+                                  triggerVT.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getVT()));
+                                  triggerPEEP.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getPEEP()));
+                                  triggerIE.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getIE()));
+                              }
+                          });
 
-            // let the chart know it's data has changed
-            chart.notifyDataSetChanged();
-
-            // limit the number of visible entries
-
-            chart.setVisibleXRangeMinimum(30);
-            chart.setVisibleXRangeMaximum(30);
-            chart.setAutoScaleMinMaxEnabled(true);
-
-            //chart.setVisibleYRange(30, 30, YAxis.AxisDependency.LEFT);
-
-            // move to the latest entry
-            chart.moveViewToX(data.getEntryCount());
-
-            // this automatically refreshes the chart (calls invalidate())
-            // chart.moveViewTo(data.getXValCount()-7, 55f,
-            // AxisDependency.LEFT);
-
-            triggerFiO2.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getFiO2()));
-            triggerHumidity.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getHumidity()));
-            triggerPmax.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getPressureMax()));
-            triggerRR.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getRR()));
-            triggerVT.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getVT()));
-            triggerPEEP.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getPEEP()));
-            triggerIE.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getIE()));
         }
     }
 
@@ -208,7 +221,7 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
     @Override
     protected void onPause() {
         super.onPause();
-        if (p!=null)
+        if (p != null)
             p.close();
     }
 

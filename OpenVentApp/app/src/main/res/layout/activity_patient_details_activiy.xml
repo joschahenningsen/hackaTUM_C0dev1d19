@@ -41,22 +41,6 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <com.jjoe64.graphview.GraphView
-                    android:id="@+id/graph1"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dip"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginRight="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
@@ -129,6 +113,11 @@
                 android:id="@+id/chart1"
                 android:layout_width="match_parent"
                 android:layout_height="200dip" />
+
+            <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chart2"
+            android:layout_width="match_parent"
+            android:layout_height="200dip" />
 
             <TextView
                 android:layout_width="match_parent"
