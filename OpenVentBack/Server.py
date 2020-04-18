@@ -100,11 +100,22 @@ class AlarmHandler(threading.Thread):
         self._stopevent = threading.Event()
         self._sleepperiod = 1
         self._alarmsList={}
-        for key,value in threads.items():
+        self._alarmsTriggered={}
+        for key, value in threads.items():
             self._alarmsList[key]=[]
         threading.Thread.__init__(self, name=name)
 
     def checkValues(self):
+        for key,vent in data.items():
+            co2 = vent['processed']['ExpiredCO2']
+            print(co2)
+            if co2 > 5.2 and key not in self._alarmsTriggered:
+                print("Alarm")
+                self._alarmsTriggered[key] = True
+                return vent['device_id']
+            elif co2 <= 5.2 and key in self._alarmsTriggered:
+                del self._alarmsTriggered[key]
+
         return -1
 
     def run(self):
@@ -146,8 +157,7 @@ class AlarmListener(threading.Thread):
             try:
                 msg = aconn.recv(1024)
                 print(msg.decode())
-                msg = msg.decode().split(",")
-                del msg[-1]
+                msg = msg.decode().strip().split(",")
                 print(msg)
                 if msg is not None:
                     for mi in msg:
