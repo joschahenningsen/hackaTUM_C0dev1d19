@@ -32,7 +32,7 @@ class UpdateThread(threading.Thread):
 
     def __init__(self, name='UpdateThread', nr=None):
         self._stopevent = threading.Event()
-        self._sleepperiod = 0.5
+        self._sleepperiod = 1
         self._recievers = []
         self._nr = nr
 
@@ -143,6 +143,8 @@ class AlarmListener(threading.Thread):
         while not self._stopevent.is_set():
             try:
                 msg = self._conn.recv(1024)
+                if msg.decode()=='':
+                    break
                 print("resv")
                 msg = msg.decode().strip().split(":")
                 if msg[0] == "start":
@@ -155,10 +157,13 @@ class AlarmListener(threading.Thread):
                 elif msg[0] == "pause":
                     print("neuer Datenbankeintrag")
                     print(msg[1])
-                    """cursor = conndb.cursor()
-                    cursor.execute("INSERT INTO screenshots (c1, c2, c3) VALUES(%s, %s, %s)", (v1, v2, v3))
-                    conndb.commit()
-                    cursor.close()"""
+                    req=data
+                    for key,value in req.items():
+                        temp=value['processed']['triggerSettings']
+                        cursor = conndb.cursor()
+                        cursor.execute("INSERT INTO screenshots (fio2,ie,mve,peep,rr,vt, humidity, pressure_max, id,vent) VALUES(%d,%d, %d, %d, %d, %d, %d, %d, %s,%s)" % (temp['FiO2'],temp['IE'],temp['MVe'],temp['PEEP'],temp['RR'],temp['VT'], temp['humidity'], temp['pressure_max'],msg[1],key))
+                        conndb.commit()
+                        cursor.close()
                 elif msg[0] == "resume":
                     print(msg[1])
                     print("wieder zurück aus pause")
