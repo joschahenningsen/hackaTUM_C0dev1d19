@@ -231,7 +231,7 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
         set.setLineWidth(1f);
         set.setDrawCircles(false);
         set.setFillAlpha(65);
-        set.setFillColor(ColorTemplate.getHoloBlue());
+        set.setFillColor(ColorTemplate.rgb("#89dfde"));
         set.setHighLightColor(Color.rgb(244, 117, 117));
         set.setValueTextColor(Color.WHITE);
         set.setValueTextSize(9f);
