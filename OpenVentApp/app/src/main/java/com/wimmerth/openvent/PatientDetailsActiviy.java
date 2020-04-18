@@ -111,7 +111,7 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
         chart.getLegend().setEnabled(false);
 
         XAxis xl = chart.getXAxis();
-        xl.setTextColor(Color.WHITE);
+        xl.setTextColor(Color.BLACK);
         xl.setDrawGridLines(false);
         xl.setAvoidFirstLastClipping(true);
         xl.setEnabled(true);
@@ -185,7 +185,7 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
                 if (i==0){
                     max = 20;
                 }
-                charts[i].setVisibleXRangeMinimum(max);
+                //charts[i].setVisibleXRangeMinimum(max);
                 charts[i].setVisibleXRangeMaximum(max);
                 charts[i].setAutoScaleMinMaxEnabled(true);
 
@@ -218,8 +218,8 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
     @Override
     protected void onPause() {
         super.onPause();
-        if (p != null)
-            p.close();
+        /*if (p != null)
+            p.close();*/
     }
 
     private LineDataSet createSet() {
