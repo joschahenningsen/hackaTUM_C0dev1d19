@@ -51,7 +51,7 @@ public class AlarmServerConnectionService extends IntentService {
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
         patients = Patient.fromString(getBaseContext().getSharedPreferences("patients", Context.MODE_PRIVATE).getString("list", ""));
-        StringBuilder requestedPatientIds = new StringBuilder();
+        StringBuilder requestedPatientIds = new StringBuilder("start:");
         for (int i = 0; i < patients.size(); i++) {
             requestedPatientIds.append(patients.get(i).getId());
             if (i < patients.size() - 1) {
