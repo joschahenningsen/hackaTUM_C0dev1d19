@@ -160,7 +160,6 @@ class AlarmListener(threading.Thread):
                     req=data
                     for key,value in req.items():
                         temp=value['processed']['triggerSettings']
-                        print(msg[1])
                         cursor = conndb.cursor()
                         cursor.execute("INSERT INTO screenshots (fio2,ie,mve,peep,rr,vt, humidity, pressure_max, id,vent) VALUES(%d,%d, %d, %d, %d, %d, %d, %d, $token$%s$token$,$token$%s$token$)" % (temp['FiO2'],temp['IE'],temp['MVe'],temp['PEEP'],temp['RR'],temp['VT'], temp['humidity'], temp['pressure_max'],msg[1],key))
                         conndb.commit()
@@ -168,6 +167,14 @@ class AlarmListener(threading.Thread):
                 elif msg[0] == "resume":
                     print(msg[1])
                     print("wieder zurück aus pause")
+                    cur = conndb.cursor()
+                    cur.execute("SELECT fio2, ie, mve, peep, rr, vt, humidity, pressure_max, vent  from screenshots where id=$token$%s$token$"%(msg[1]))
+                    rows = cur.fetchall()
+                    dict2 = {}
+
+                    for row in rows:
+                        dict2[row[9]]={'FiO2':row[0], 'IE':row[1],'MVe':row[2],'PEEP':row[4],'RR':row[5],'VT':row[6],'humidity':row[7],'pressure_max':row[8]}
+                    self._conn.send(("%s\n" % json.dumps(dict2)).encode())
             except socket.error as serr:
                 print(serr)
 
