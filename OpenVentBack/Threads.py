@@ -161,7 +161,7 @@ class AlarmListener(threading.Thread):
                 print(msg[1])
                 req=data
                 for key,value in req.items():
-                    conndb = psycopg2.connect(database="thobian", user="thobian", password="infineon",
+                    conndb = psycopg2.connect(database="thobian", user="thobian", password="infineon", # piep
                                               host="127.0.0.1", port="5432")
                     temp=value['processed']['triggerSettings']
                     cursor = conndb.cursor()
