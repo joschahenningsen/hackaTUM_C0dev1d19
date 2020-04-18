@@ -103,7 +103,7 @@ class AlarmHandler(threading.Thread):
         threading.Thread.__init__(self, name=name)
 
     def checkValues(self):
-        return '0'
+        return '4242'
 
     def run(self):
         while True:
