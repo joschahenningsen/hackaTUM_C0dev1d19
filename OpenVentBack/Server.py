@@ -1,23 +1,35 @@
 import socket
 import threading
-import requests
+import requests, certifi
 import json
-from random import randrange
 import sys
 
-URL = 'http://api.theopenvent.com/exampledata/v2/data'
+URL = 'https://api.theopenvent.com/exampledata/v2/data'
 
+data = requests.get(URL,verify=False).json()
 
 
 def addThreads():
     result={}
-    req=requests.get(URL).json()
+    req= data
     for key, value in req.items():
         t = UpdateThread(name="UpdateThread %s"% (key,), nr=key)
         t.start()
         result[str(req[key]['device_id'])]=t
 
     return result
+
+class DataFetcher(threading.Thread):
+    def __init__(self, name='DataFetcher'):
+        self._stopevent = threading.Event()
+        self._sleepperiod = 0.5
+        threading.Thread.__init__(self, name=name)
+
+    def run(self):
+        while True:
+            global data
+            data = requests.get(URL,verify=False).json()
+            self._stopevent.wait(self._sleepperiod)
 
 class UpdateThread(threading.Thread):
 
@@ -35,7 +47,7 @@ class UpdateThread(threading.Thread):
         while not self._stopevent.is_set():
             for c in self._recievers:
                 try:
-                    req = "%s\n" % json.dumps(requests.get(URL).json()[str(self._nr)])
+                    req = "%s\n" % json.dumps(data[str(self._nr)])
                     c.send(req.encode())
                 except socket.error:
                     print("Removed from %s"%(self.getName()))
@@ -81,18 +93,67 @@ class ListenThread(threading.Thread):
         self._stopevent.set()
         threading.Thread.join(self, timeout)
 
-99
+class AlarmHandler(threading.Thread):
+    def __init__(self, name='AlarmHandler'):
+        threading.Thread.__init__(self, name=name)
+
+    def checkValues(self):
+        return True
+
+    def run(self):
+        alarmID = self.checkValues()
+        if alarmID != -1:
+            print("Alarm")
+
+
+class AlarmListener(threading.Thread):
+    def __init__(self, name='AlarmListener'):
+
+        threading.Thread.__init__(self, name=name)
+
+    def run(self):
+        a = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        a.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)   # TODO Alllow multiple users to connect at the same time
+        a.bind((serveraddress, ALARM_PORT))
+        a.listen(NUMBER_OF_DEVICES)
+        a.accept()
+        while True:
+            aconn, aaddr = a.accept()
+            try:
+                msg = aconn.recv(1024)
+                msg = msg.decode().split(str=",")
+                if msg is not None:
+                    self._threads[msg].add(self._conn)
+            except socket.error as serr:
+                print(serr)
+
+
+
 if __name__ == '__main__':
     NUMBER_OF_DEVICES = 5
-    TCP_PORT = 5005
+    MSG_PORT = 5005
+    ALARM_PORT = 5010
     BUFFER_SIZE = 1024
     count = 1
+    serveraddress ='192.168.178.51'
     threads = addThreads()
+
+    fetcher = DataFetcher()
+    fetcher.daemon = True
+    fetcher.start()
+
+    """alarm = AlarmListener()
+    alarm.daemon = True
+    alarm.start()"""
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR, 1)
-    s.bind((socket.gethostname(), TCP_PORT))
+    s.bind((serveraddress, MSG_PORT))
     s.listen(NUMBER_OF_DEVICES)
+
+
+
+
 
     while True:
         conn, addr = s.accept()
