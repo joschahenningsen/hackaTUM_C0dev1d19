@@ -58,7 +58,6 @@ public class AlarmServerConnectionService extends IntentService {
             }
             writer.flush();
         }
-        sendNotification("4242");
         String line;
         while ((line = reader.readLine()) != null) {
             sendNotification(line);
@@ -97,11 +96,18 @@ public class AlarmServerConnectionService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        try {
-            run();
-        } catch (IOException e) {
-            //keine verbindung mit alarm server möglich!!!
-            //todo: toast oder so
+        while (true) {
+            try {
+                run();
+            } catch (IOException e) {
+                //keine verbindung mit alarm server möglich!!!
+                //todo: reconnect
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
         }
     }
 }
