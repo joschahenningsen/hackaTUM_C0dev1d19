@@ -8,6 +8,7 @@ public class Measurement implements Comparable{
     private int volumePerMovement;
     private double pressure;
     private double flowRate;
+    private double mveProcessed;
 
     public Measurement(int time, int volumePerMovement, double expiredO2, double expiredCO2, int rr, double pressure, double flowRate) {
         this.time = time;
@@ -60,4 +61,7 @@ public class Measurement implements Comparable{
         return flowRate;
     }
 
+    public double getMVeProcessed() {
+        return mveProcessed;
+    }
 }

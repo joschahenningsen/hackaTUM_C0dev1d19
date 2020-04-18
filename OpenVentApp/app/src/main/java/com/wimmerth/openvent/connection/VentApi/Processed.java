@@ -12,15 +12,33 @@ public class Processed {
     @SerializedName("ExpiredO2")
     @Expose
     private Double expiredO2;
+    @SerializedName("FiO2")
+    @Expose
+    private Double fiO2;
+    @SerializedName("IE")
+    @Expose
+    private Double iE;
     @SerializedName("MVe")
     @Expose
     private Integer mVe;
+    @SerializedName("PEEP")
+    @Expose
+    private Integer pEEP;
+    @SerializedName("RR")
+    @Expose
+    private Integer rR;
+    @SerializedName("VT")
+    @Expose
+    private Integer vT;
     @SerializedName("flowrate")
     @Expose
     private Integer flowrate;
     @SerializedName("frequency")
     @Expose
     private Integer frequency;
+    @SerializedName("humidity")
+    @Expose
+    private Double humidity;
     @SerializedName("pressure")
     @Expose
     private Integer pressure;
@@ -53,12 +71,52 @@ public class Processed {
         this.expiredO2 = expiredO2;
     }
 
+    public Double getFiO2() {
+        return fiO2;
+    }
+
+    public void setFiO2(Double fiO2) {
+        this.fiO2 = fiO2;
+    }
+
+    public Double getIE() {
+        return iE;
+    }
+
+    public void setIE(Double iE) {
+        this.iE = iE;
+    }
+
     public Integer getMVe() {
         return mVe;
     }
 
     public void setMVe(Integer mVe) {
         this.mVe = mVe;
+    }
+
+    public Integer getPEEP() {
+        return pEEP;
+    }
+
+    public void setPEEP(Integer pEEP) {
+        this.pEEP = pEEP;
+    }
+
+    public Integer getRR() {
+        return rR;
+    }
+
+    public void setRR(Integer rR) {
+        this.rR = rR;
+    }
+
+    public Integer getVT() {
+        return vT;
+    }
+
+    public void setVT(Integer vT) {
+        this.vT = vT;
     }
 
     public Integer getFlowrate() {
@@ -75,6 +133,14 @@ public class Processed {
 
     public void setFrequency(Integer frequency) {
         this.frequency = frequency;
+    }
+
+    public Double getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(Double humidity) {
+        this.humidity = humidity;
     }
 
     public Integer getPressure() {

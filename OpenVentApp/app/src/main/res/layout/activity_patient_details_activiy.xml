@@ -70,7 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="14"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                     app:layout_constraintBottom_toTopOf="@+id/headerO2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -106,6 +106,66 @@
                     app:layout_constraintEnd_toEndOf="@+id/co2"
                     app:layout_constraintStart_toStartOf="@+id/co2"
                     app:layout_constraintTop_toBottomOf="@+id/co2" />
+
+                <TextView
+                    android:id="@+id/mve"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    app:layout_constraintBottom_toBottomOf="@+id/flowRate"
+                    app:layout_constraintEnd_toEndOf="@+id/o2"
+                    app:layout_constraintStart_toStartOf="@+id/o2"
+                    app:layout_constraintTop_toTopOf="@+id/flowRate" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MVe"
+                    app:layout_constraintEnd_toEndOf="@+id/mve"
+                    app:layout_constraintStart_toStartOf="@+id/mve"
+                    app:layout_constraintTop_toBottomOf="@+id/mve" />
+
+                <TextView
+                    android:id="@+id/flowRate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                    app:layout_constraintEnd_toEndOf="@+id/rr"
+                    app:layout_constraintStart_toStartOf="@+id/rr"
+                    app:layout_constraintTop_toBottomOf="@+id/headerRR" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Flow Rate"
+                    app:layout_constraintEnd_toEndOf="@+id/flowRate"
+                    app:layout_constraintStart_toStartOf="@+id/flowRate"
+                    app:layout_constraintTop_toBottomOf="@+id/flowRate" />
+
+                <TextView
+                    android:id="@+id/pressure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    app:layout_constraintBottom_toBottomOf="@+id/flowRate"
+                    app:layout_constraintEnd_toEndOf="@+id/co2"
+                    app:layout_constraintStart_toStartOf="@+id/co2"
+                    app:layout_constraintTop_toTopOf="@+id/flowRate" />
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pressure"
+                    app:layout_constraintEnd_toEndOf="@+id/pressure"
+                    app:layout_constraintStart_toStartOf="@+id/pressure"
+                    app:layout_constraintTop_toBottomOf="@+id/pressure" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView

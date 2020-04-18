@@ -44,15 +44,7 @@ public class Patient implements Caller {
 
     private void notifyCallers() {
         for (CallerMeassurement callback : callbacks) {
-            callback.addData(
-                    new Measurement(apiData.getTime(),
-                            apiData.getProcessed().getVolumePerMinute(),
-                            apiData.getProcessed().getExpiredO2(),
-                            apiData.getProcessed().getExpiredCO2(),
-                            apiData.getProcessed().getTriggerSettings().getRR(),
-                            apiData.getProcessed().getPressure(),
-                            apiData.getProcessed().getFlowrate()),
-                    id);
+            callback.addData(this.apiData, id);
         }
     }
 

@@ -58,13 +58,13 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
             o2Tv.setText("O2: " + patient.getApiData().getProcessed().getExpiredO2());
             mode.setText(patient.getApiData().getProcessed().getVentilationMode());
 
-            if (co2exh>=5.2) {
+            if (co2exh >= 5.2) {
                 status.setText("Critical");
                 status.setTextColor(Color.parseColor("#F44336"));
-            }else if (co2exh>5.0){
+            } else if (co2exh > 5.0) {
                 status.setText("Okay");
                 status.setTextColor(Color.parseColor("#FFC107"));
-            }else {
+            } else {
                 status.setText("Good");
                 status.setTextColor(Color.parseColor("#4CAF50"));
             }

@@ -21,6 +21,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.wimmerth.openvent.connection.CallerMeassurement;
+import com.wimmerth.openvent.connection.VentApi.OpenVentResponse;
 import com.wimmerth.openvent.data.Measurement;
 import com.wimmerth.openvent.data.Patient;
 import com.wimmerth.openvent.ui.home.HomeFragment;
@@ -29,9 +30,7 @@ import java.util.List;
 
 public class PatientDetailsActiviy extends AppCompatActivity implements CallerMeassurement {
     LineGraphSeries<DataPoint> dynSeries;
-    private TextView rrTextView;
-    private TextView o2TextView;
-    private TextView co2TextView;
+    private TextView rrTextView, o2TextView, co2TextView, MVeTextView, FlowRateTextView, PressureTextView;
     private TextView triggerFiO2, triggerHumidity, triggerPmax, triggerRR, triggerVT, triggerPEEP, triggerIE;
     LineChart[] charts = new LineChart[4];
     Patient p;
@@ -60,6 +59,9 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
         this.rrTextView = findViewById(R.id.rr);
         this.o2TextView = findViewById(R.id.o2);
         this.co2TextView = findViewById(R.id.co2);
+        this.MVeTextView = findViewById(R.id.mve);
+        this.FlowRateTextView = findViewById(R.id.flowRate);
+        this.PressureTextView = findViewById(R.id.pressure);
 
         /*GraphView graph = (GraphView) findViewById(R.id.graph1);
         dynSeries = new LineGraphSeries<>();
@@ -137,26 +139,26 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
 
 
     @Override
-    public void addData(final Measurement m, int p) {
-        Log.d("joscha", m.toString());
+    public void addData(final OpenVentResponse apiData, int p) {
+        Log.d("joscha", apiData.toString());
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                rrTextView.setText("" + m.getRr());
-                o2TextView.setText("" + m.getO2());
-                co2TextView.setText("" + m.getCo2());
+                rrTextView.setText("" + apiData.getProcessed().getTriggerSettings().getRR());
+                o2TextView.setText("" + apiData.getProcessed().getExpiredO2());
+                co2TextView.setText("" + apiData.getProcessed().getExpiredCO2());
+                MVeTextView.setText(""+ apiData.getProcessed().getMVe());
             }
         });
 
-        addEntry(m);
+        addEntry(apiData);
     }
-
 
 
     /*COMPLEX CHART:*/
 
 
-    private void addEntry(Measurement m) {
+    private void addEntry(OpenVentResponse apiData) {
         for (int i = 0; i < charts.length; i++) {
             LineData data = charts[i].getData();
 
@@ -175,16 +177,16 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
 
                 switch (i) {
                     case 0:
-                        data.addEntry(new Entry(set.getEntryCount(), (float) m.getPressure()), 0);
+                        data.addEntry(new Entry(set.getEntryCount(), (float) apiData.getProcessed().getPressure()), 0);
                         break;
                     case 1:
-                        data.addEntry(new Entry(set.getEntryCount(), (float) m.getFlowRate()), 0);
+                        data.addEntry(new Entry(set.getEntryCount(), (float) apiData.getProcessed().getFlowrate()), 0);
                         break;
                     case 2:
-                        data.addEntry(new Entry(set.getEntryCount(), (float) m.getVolumePerMovement()), 0);
+                        data.addEntry(new Entry(set.getEntryCount(), (float) apiData.getProcessed().getVolumePerMovement()), 0);
                         break;
                     case 3:
-                        data.addEntry(new Entry(set.getEntryCount(), (float) m.getCo2()), 0);
+                        data.addEntry(new Entry(set.getEntryCount(), Float.parseFloat(apiData.getProcessed().getExpiredCO2().toString())), 0);
                         break;
                     default:
                         break;
