@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -57,13 +58,13 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
 
             if (co2exh>=5.2) {
                 status.setText("Critical");
-                status.setTextColor(Color.RED);
+                status.setTextColor(Color.parseColor("#F44336"));
             }else if (co2exh>5.0){
                 status.setText("Okay");
-                status.setTextColor(Color.YELLOW);
+                status.setTextColor(Color.parseColor("#FFC107"));
             }else {
                 status.setText("Good");
-                status.setTextColor(Color.GREEN);
+                status.setTextColor(Color.parseColor("#4CAF50"));
             }
         }
 
