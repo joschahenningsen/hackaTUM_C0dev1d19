@@ -35,7 +35,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/rsz_klinikum" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

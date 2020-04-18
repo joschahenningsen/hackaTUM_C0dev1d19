@@ -9,7 +9,7 @@
 
     <string name="menu_home">OpenVent</string>
     <string name="menu_gallery">Change Monitor</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_slideshow">The OpenVent project</string>
 
     <string name="home_second">Home Second</string>
     <string name="patient">Patient</string>
@@ -17,4 +17,8 @@
     <string name="newBreak">New break</string>
     <string name="endBreak">End break</string>
     <string name="arrow">Arrow</string>
+    <string name="textGithub">Clearly, the first choice is always available, professional, certified medical equipment.\nDuring the Corona (COVID-19) pandemic it became obvious that a lack of medical equipment can cause a severe impact. Often, also simple equipment and designs can be helpful as long as no professional equipment is available. \nThis documentation and repository contains generic information about an open-source ventilator device. Main purpose of this project is to build a ventilator when no professional and medical equipment is available. Easy to assemble and available components are used with a clear focus on simplicity, availability and scalability.\n This project started as part of the hackathon #WirvsVirus of the German government.</string>
+    <string name="openvent_the_project">OpenVent - The project</string>
+    <string name="moreInfo">More Information on the basic project: \n\t-https://github.com/mhollfelder/openvent\n\t-https://youtu.be/LgbF94eOf6w (Project video)</string>
+    <string name="wir">This app and the server the app connects with have been programmed by Thomas Wimmer, Joscha Henningsen, Fabian Pröbstle</string>
 </resources>
