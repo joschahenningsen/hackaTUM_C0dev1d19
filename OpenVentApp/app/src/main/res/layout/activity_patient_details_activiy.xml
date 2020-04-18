@@ -108,23 +108,19 @@
                     app:layout_constraintTop_toBottomOf="@+id/co2" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/chart1"
-                android:layout_width="match_parent"
-                android:layout_height="200dip" />
-
             <TextView
                 android:id="@+id/co2desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:text="Pressure" />
+                android:layout_marginTop="24dp"
+                android:text="Pressure"
+                android:textAlignment="center" />
 
             <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/chart2"
+                android:id="@+id/chart1"
                 android:layout_width="match_parent"
-                android:layout_height="200dip" />
+                android:layout_height="200dip"
+                android:layout_marginBottom="32dp" />
 
             <TextView
                 android:id="@+id/o2desc"
@@ -132,29 +128,33 @@
                 android:layout_height="wrap_content"
                 android:text="FlowRate (ml/min)"
                 android:textAlignment="center" />
-
             <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/chart3"
+                android:id="@+id/chart2"
                 android:layout_width="match_parent"
-                android:layout_height="200dip" />
+                android:layout_height="200dip"
+                android:layout_marginBottom="32dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Volume per Movement"
                 android:textAlignment="center" />
-
-
             <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/chart4"
+                android:id="@+id/chart3"
                 android:layout_width="match_parent"
-                android:layout_height="200dip" />
+                android:layout_height="200dip"
+                android:layout_marginBottom="32dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="CO2 Exhaled"
                 android:textAlignment="center" />
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart4"
+                android:layout_width="match_parent"
+                android:layout_height="200dip"
+                android:layout_marginBottom="32dp" />
 
             <TextView
                 android:layout_width="match_parent"

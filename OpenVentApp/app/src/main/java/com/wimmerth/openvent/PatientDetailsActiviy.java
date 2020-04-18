@@ -121,12 +121,15 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
         xl.setDrawGridLines(false);
         xl.setAvoidFirstLastClipping(true);
         xl.setEnabled(true);
+        xl.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.setTextColor(Color.BLACK);
         leftAxis.setSpaceBottom(50);
         leftAxis.setSpaceTop(50);
         leftAxis.setDrawGridLines(true);
+        //todo: maby leftAxis.setGranularity(100);
+
 
         YAxis rightAxis = chart.getAxisRight();
         rightAxis.setEnabled(false);
