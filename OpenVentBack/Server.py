@@ -140,7 +140,7 @@ class AlarmListener(threading.Thread):
         print("Waiting for Connections")
         while True:
             aconn, aaddr = a.accept()
-            print("Connection on Alarm:",addr)
+            print("Connection on Alarm:",aaddr)
             try:
                 msg = aconn.recv(1024)
                 print(msg.decode())
