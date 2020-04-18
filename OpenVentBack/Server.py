@@ -2,11 +2,11 @@ import socket
 import threading
 import requests, certifi
 import json
-import sys
+import sys, urllib3
 
 URL = 'https://api.theopenvent.com/exampledata/v2/data'
-
-data = requests.get(URL,verify=False).json()
+urllib3.disable_warnings()
+data = requests.get(URL,verify=False).json()                                      # TODO fix ssl
 
 
 def addThreads():
@@ -28,7 +28,7 @@ class DataFetcher(threading.Thread):
     def run(self):
         while True:
             global data
-            data = requests.get(URL,verify=False).json()
+            data = requests.get(URL,verify=False).json()                        # TODO fix ssl
             self._stopevent.wait(self._sleepperiod)
 
 class UpdateThread(threading.Thread):
@@ -135,7 +135,7 @@ if __name__ == '__main__':
     ALARM_PORT = 5010
     BUFFER_SIZE = 1024
     count = 1
-    serveraddress =socket.gethostname()
+    serveraddress = socket.gethostname()
     threads = addThreads()
 
     fetcher = DataFetcher()
