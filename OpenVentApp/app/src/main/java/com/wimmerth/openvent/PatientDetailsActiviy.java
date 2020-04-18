@@ -36,7 +36,6 @@ public class PatientDetailsActiviy extends AppCompatActivity {
     private TextView o2TextView;
     private TextView co2TextView;
     LineChart chart;
-    LineChart l;
     Patient p;
 
     @Override
@@ -65,7 +64,6 @@ public class PatientDetailsActiviy extends AppCompatActivity {
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(40);
         graph.setTitle("Volume per minute (ml)");
-
 
         //chart:
         chart = findViewById(R.id.chart1);
@@ -109,8 +107,8 @@ public class PatientDetailsActiviy extends AppCompatActivity {
 
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.setTextColor(Color.BLACK);
-        leftAxis.setAxisMaximum(6f);
-        leftAxis.setAxisMinimum(4f);
+        leftAxis.setAxisMaximum(5.5f);
+        leftAxis.setAxisMinimum(4.5f);
         leftAxis.setDrawGridLines(true);
 
         YAxis rightAxis = chart.getAxisRight();
@@ -148,8 +146,11 @@ public class PatientDetailsActiviy extends AppCompatActivity {
             // set.addEntry(...); // can be called as well
 
             if (set == null) {
-                set = createSet();
-                data.addDataSet(set);
+                LineDataSet ldset = createSet();
+                ldset.setDrawFilled(true);
+                data.addDataSet(ldset);
+                ldset.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                set = ldset;
             }
 
             data.addEntry(new Entry(set.getEntryCount(), (float) m.getCo2()), 0);
@@ -189,7 +190,7 @@ public class PatientDetailsActiviy extends AppCompatActivity {
         set.setColor(ColorTemplate.getHoloBlue());
         set.setCircleColor(Color.BLACK);
         set.setLineWidth(1f);
-        set.setCircleRadius(1f);
+        set.setDrawCircles(false);
         set.setFillAlpha(65);
         set.setFillColor(ColorTemplate.getHoloBlue());
         set.setHighLightColor(Color.rgb(244, 117, 117));
