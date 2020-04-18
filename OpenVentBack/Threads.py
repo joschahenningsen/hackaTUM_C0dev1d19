@@ -139,7 +139,7 @@ class AlarmListener(threading.Thread):
         while not self._stopevent.is_set():
             try:
                 msg = self._conn.recv(1024)
-                print(msg.decode())
+                print("resv")
                 msg = msg.decode().strip().split(":")
                 if msg[0] == "start":
                     msg[1] = msg[1].split(",")
