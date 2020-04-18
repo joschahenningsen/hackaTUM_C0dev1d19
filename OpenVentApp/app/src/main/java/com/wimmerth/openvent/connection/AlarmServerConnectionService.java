@@ -51,13 +51,15 @@ public class AlarmServerConnectionService extends IntentService {
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
         patients = Patient.fromString(getBaseContext().getSharedPreferences("patients", Context.MODE_PRIVATE).getString("list", ""));
+        StringBuilder requestedPatientIds = new StringBuilder();
         for (int i = 0; i < patients.size(); i++) {
-            writer.print(patients.get(i).getId());
+            requestedPatientIds.append(patients.get(i).getId());
             if (i < patients.size() - 1) {
-                writer.print(",");
+                requestedPatientIds.append(",");
             }
-            writer.flush();
         }
+        writer.println(requestedPatientIds);
+        writer.flush();
         String line;
         while ((line = reader.readLine()) != null) {
             sendNotification(line);
@@ -100,8 +102,6 @@ public class AlarmServerConnectionService extends IntentService {
             try {
                 run();
             } catch (IOException e) {
-                //keine verbindung mit alarm server möglich!!!
-                //todo: reconnect
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
