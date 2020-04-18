@@ -1,9 +1,9 @@
 import urllib3
 from Threads import *
 
-URL = 'https://api.theopenvent.com/exampledata/v2/data'
+
 urllib3.disable_warnings()
-data = requests.get(URL, verify=False).json()                                      # TODO fix ssl
+                                      # TODO fix ssl
 
 
 def addthreads():

@@ -4,6 +4,8 @@ import socket
 import json
 import sys
 
+URL = 'https://api.theopenvent.com/exampledata/v2/data'
+data = requests.get(URL, verify=False).json()
 
 class DataFetcher(threading.Thread):
     def __init__(self, name='DataFetcher', url='https://api.theopenvent.com/exampledata/v2/data'):
