@@ -116,7 +116,7 @@ class AlarmHandler(threading.Thread):
                         si.send("Alarm\n".encode())
                     except socket.error:
                         print("Removed Alarm from %s" % (self.getName()))
-                        self._recievers.remove(si)
+                        self._alarmsList[alarmID].remove(si)
             self._stopevent.wait(self._sleepperiod)
 
 
