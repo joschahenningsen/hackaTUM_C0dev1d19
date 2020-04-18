@@ -105,7 +105,7 @@ class AlarmHandler(threading.Thread):
         threading.Thread.__init__(self, name=name)
 
     def checkValues(self):
-        return '4242'
+        return -1
 
     def run(self):
         while True:
@@ -113,7 +113,7 @@ class AlarmHandler(threading.Thread):
             if alarmID != -1:
                 for si in self._alarmsList[alarmID]:
                     try:
-                        si.send("4242\n".encode())
+                        si.send(alarmID.encode())
                     except socket.error:
                         print("Removed Alarm from %s" % (self.getName()))
                         self._alarmsList[alarmID].remove(si)
