@@ -97,6 +97,8 @@ class ListenThread(threading.Thread):
 
 class AlarmHandler(threading.Thread):
     def __init__(self, name='AlarmHandler'):
+        self._stopevent = threading.Event()
+        self._sleepperiod = 1
         self._alarmsList={}
         for key,value in threads.items():
             self._alarmsList[key]=[]
@@ -115,7 +117,7 @@ class AlarmHandler(threading.Thread):
                     except socket.error:
                         print("Removed Alarm from %s" % (self.getName()))
                         self._recievers.remove(si)
-            time.sleep(10)
+            self._stopevent.wait(self._sleepperiod)
 
 
     def addAlarm(self, _id,_conn):
