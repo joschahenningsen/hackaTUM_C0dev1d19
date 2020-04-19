@@ -5,12 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -22,7 +20,6 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.wimmerth.openvent.connection.CallerMeassurement;
 import com.wimmerth.openvent.connection.VentApi.OpenVentResponse;
-import com.wimmerth.openvent.data.Measurement;
 import com.wimmerth.openvent.data.Patient;
 import com.wimmerth.openvent.ui.home.HomeFragment;
 
@@ -30,7 +27,7 @@ import java.util.List;
 
 public class PatientDetailsActiviy extends AppCompatActivity implements CallerMeassurement {
     LineGraphSeries<DataPoint> dynSeries;
-    private TextView rrTextView, o2TextView, co2TextView, MVeTextView, FlowRateTextView, PressureTextView;
+    private TextView rrTextView, o2TextView, co2TextView, MVeTextView, ventilationmodetv, PressureTextView;
     private TextView triggerFiO2, triggerHumidity, triggerPmax, triggerRR, triggerVT, triggerPEEP, triggerIE;
     LineChart[] charts = new LineChart[4];
     Patient p;
@@ -60,7 +57,7 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
         this.o2TextView = findViewById(R.id.o2);
         this.co2TextView = findViewById(R.id.co2);
         this.MVeTextView = findViewById(R.id.mve);
-        this.FlowRateTextView = findViewById(R.id.flowRate);
+        this.ventilationmodetv = findViewById(R.id.ventilationmode);
         this.PressureTextView = findViewById(R.id.pressure);
 
         /*GraphView graph = (GraphView) findViewById(R.id.graph1);
@@ -144,11 +141,11 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                rrTextView.setText("" + apiData.getProcessed().getTriggerSettings().getRR());
+                rrTextView.setText("" + apiData.getProcessed().getFrequency());
                 o2TextView.setText("" + apiData.getProcessed().getExpiredO2());
                 co2TextView.setText("" + apiData.getProcessed().getExpiredCO2());
                 MVeTextView.setText(""+ apiData.getProcessed().getMVe());
-                FlowRateTextView.setText(""+apiData.getProcessed().getFlowrate());
+                ventilationmodetv.setText(""+apiData.getProcessed().getVentilationMode());
                 PressureTextView.setText(""+apiData.getProcessed().getPressure());
             }
         });

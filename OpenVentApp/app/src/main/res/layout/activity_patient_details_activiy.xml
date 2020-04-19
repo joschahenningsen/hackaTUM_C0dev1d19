@@ -113,10 +113,10 @@
                     android:layout_height="wrap_content"
                     android:text="0"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                    app:layout_constraintBottom_toBottomOf="@+id/flowRate"
-                    app:layout_constraintEnd_toEndOf="@+id/o2"
-                    app:layout_constraintStart_toStartOf="@+id/o2"
-                    app:layout_constraintTop_toTopOf="@+id/flowRate" />
+                    app:layout_constraintBottom_toBottomOf="@+id/pressure"
+                    app:layout_constraintEnd_toStartOf="@+id/pressure"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/pressure" />
 
                 <TextView
                     android:id="@+id/textView3"
@@ -127,24 +127,7 @@
                     app:layout_constraintStart_toStartOf="@+id/mve"
                     app:layout_constraintTop_toBottomOf="@+id/mve" />
 
-                <TextView
-                    android:id="@+id/flowRate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-                    app:layout_constraintEnd_toEndOf="@+id/rr"
-                    app:layout_constraintStart_toStartOf="@+id/rr"
-                    app:layout_constraintTop_toBottomOf="@+id/headerRR" />
 
-                <TextView
-                    android:id="@+id/textView6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Flow Rate"
-                    app:layout_constraintEnd_toEndOf="@+id/flowRate"
-                    app:layout_constraintStart_toStartOf="@+id/flowRate"
-                    app:layout_constraintTop_toBottomOf="@+id/flowRate" />
 
                 <TextView
                     android:id="@+id/pressure"
@@ -152,10 +135,10 @@
                     android:layout_height="wrap_content"
                     android:text="0"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                    app:layout_constraintBottom_toBottomOf="@+id/flowRate"
-                    app:layout_constraintEnd_toEndOf="@+id/co2"
-                    app:layout_constraintStart_toStartOf="@+id/co2"
-                    app:layout_constraintTop_toTopOf="@+id/flowRate" />
+                    app:layout_constraintBottom_toBottomOf="@+id/mve"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/mve"
+                    app:layout_constraintTop_toBottomOf="@+id/headerRR" />
 
                 <TextView
                     android:id="@+id/textView10"
@@ -165,6 +148,26 @@
                     app:layout_constraintEnd_toEndOf="@+id/pressure"
                     app:layout_constraintStart_toStartOf="@+id/pressure"
                     app:layout_constraintTop_toBottomOf="@+id/pressure" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/ventilationmode"
+                    app:layout_constraintTop_toBottomOf="@id/textView10"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:text="Ventilation Mode"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ventilation mode"
+                    app:layout_constraintEnd_toEndOf="@+id/ventilationmode"
+                    app:layout_constraintStart_toStartOf="@+id/ventilationmode"
+                    app:layout_constraintTop_toBottomOf="@+id/ventilationmode" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
