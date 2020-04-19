@@ -156,9 +156,9 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
                 rrTextView.setText("" + apiData.getProcessed().getFrequency());
                 o2TextView.setText("" + apiData.getProcessed().getExpiredO2());
                 co2TextView.setText("" + apiData.getProcessed().getExpiredCO2());
-                MVeTextView.setText(""+ apiData.getProcessed().getMVe());
-                ventilationmodetv.setText(""+apiData.getProcessed().getVentilationMode());
-                PressureTextView.setText(""+apiData.getProcessed().getPressure());
+                MVeTextView.setText("" + apiData.getProcessed().getMVe());
+                ventilationmodetv.setText("" + apiData.getProcessed().getVentilationMode());
+                PressureTextView.setText("" + apiData.getProcessed().getPressure());
             }
         });
 
@@ -167,8 +167,6 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
 
 
     /*COMPLEX CHART:*/
-
-
     private void addEntry(OpenVentResponse apiData) {
         for (int i = 0; i < charts.length; i++) {
             LineData data = charts[i].getData();
