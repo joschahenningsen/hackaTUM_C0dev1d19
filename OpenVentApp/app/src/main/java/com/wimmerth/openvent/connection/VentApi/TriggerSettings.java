@@ -17,7 +17,7 @@ public class TriggerSettings {
     private Integer mVe;
     @SerializedName("PEEP")
     @Expose
-    private Integer pEEP;
+    private Float pEEP;
     @SerializedName("RR")
     @Expose
     private Integer rR;
@@ -55,11 +55,11 @@ public class TriggerSettings {
         this.mVe = mVe;
     }
 
-    public Integer getPEEP() {
+    public Float getPEEP() {
         return pEEP;
     }
 
-    public void setPEEP(Integer pEEP) {
+    public void setPEEP(Float pEEP) {
         this.pEEP = pEEP;
     }
 
