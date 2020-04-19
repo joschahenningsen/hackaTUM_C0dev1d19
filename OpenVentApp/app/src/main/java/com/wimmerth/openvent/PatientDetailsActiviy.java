@@ -9,6 +9,8 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -20,6 +22,7 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.wimmerth.openvent.connection.CallerMeassurement;
 import com.wimmerth.openvent.connection.VentApi.OpenVentResponse;
+import com.wimmerth.openvent.data.Measurement;
 import com.wimmerth.openvent.data.Patient;
 import com.wimmerth.openvent.ui.home.HomeFragment;
 
@@ -69,16 +72,16 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
         graph.setTitle("Volume per minute (ml)");*/
 
         charts[0] = findViewById(R.id.chart1);
-        setupChart(charts[0]);
+        setupChart(charts[0], 0);
 
         charts[1] = findViewById(R.id.chart2);
-        setupChart(charts[1]);
+        setupChart(charts[1], 1);
 
         charts[2] = findViewById(R.id.chart3);
-        setupChart(charts[2]);
+        setupChart(charts[2], 2);
 
         charts[3] = findViewById(R.id.chart4);
-        setupChart(charts[3]);
+        setupChart(charts[3], 3);
 
         //Fill trigger data
         triggerFiO2 = findViewById(R.id.triggerFiO2);
@@ -90,7 +93,7 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
         triggerVT = findViewById(R.id.triggerVT);
     }
 
-    private void setupChart(LineChart chart) {
+    private void setupChart(LineChart chart, int i) {
         // enable description text
         chart.getDescription().setEnabled(false);
         // enable touch gestures
@@ -129,6 +132,15 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
         leftAxis.setDrawGridLines(true);
         //todo: maby leftAxis.setGranularity(100);
 
+        if (i == 1) {
+            LimitLine nullLine = new LimitLine(0f, "0");
+            nullLine.setEnabled(true);
+            nullLine.setLineWidth(1f);
+            nullLine.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
+            nullLine.setTextSize(10f);
+
+            leftAxis.addLimitLine(nullLine);
+        }
 
         YAxis rightAxis = chart.getAxisRight();
         rightAxis.setEnabled(false);
@@ -198,7 +210,7 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
                 // limit the number of visible entries
 
                 int max = 50;
-                if (i==0){
+                if (i == 0) {
                     max = 20;
                 }
                 //charts[i].setVisibleXRangeMinimum(max);
