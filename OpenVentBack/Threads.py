@@ -165,7 +165,7 @@ class AlarmListener(threading.Thread):
                 for key,value in req.items():
                     temp=value['processed']['triggerSettings']
                     cursor = conndb.cursor()
-                    cursor.execute("INSERT INTO screenshots (fio2,ie,mve,peep,rr,vt, humidity, pressure_max, id,vent) VALUES(%d,%d, %d, %d, %d, %d, %d, %d, $token$%s$token$,$token$%s$token$)" % (temp['FiO2'],temp['IE'],temp['MVe'],temp['PEEP'],temp['RR'],temp['VT'], temp['humidity'], temp['pressure_max'],msg[1],key))
+                    cursor.execute("INSERT INTO screenshots (fio2,ie,mve,peep,rr,vt, humidity, pressure_max, id,vent) VALUES(%s,%d, %s, %d, %d, %d, %s, %s, $token$%s$token$,$token$%s$token$)" % (temp['FiO2'],temp['IE'],temp['MVe'],temp['PEEP'],temp['RR'],temp['VT'], temp['humidity'], temp['pressure_max'],msg[1],key))
                     conndb.commit()
                 cursor.close()
             elif msg[0] == "resume":
