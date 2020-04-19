@@ -228,12 +228,12 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    triggerFiO2.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getFiO2()));
-                    triggerHumidity.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getHumidity()));
-                    triggerPmax.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getPressureMax()));
-                    triggerRR.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getRR()));
-                    triggerVT.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getVT()));
-                    triggerPEEP.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getPEEP()));
+                    triggerFiO2.setText(p.getApiData().getProcessed().getTriggerSettings().getFiO2()+"%");
+                    triggerHumidity.setText(p.getApiData().getProcessed().getTriggerSettings().getHumidity()+"%");
+                    triggerPmax.setText(p.getApiData().getProcessed().getTriggerSettings().getPressureMax()+" cmH₂O");
+                    triggerRR.setText(p.getApiData().getProcessed().getTriggerSettings().getRR()+" 1/m");
+                    triggerVT.setText(p.getApiData().getProcessed().getTriggerSettings().getVT()+" mL");
+                    triggerPEEP.setText(p.getApiData().getProcessed().getTriggerSettings().getPEEP()+" cmH₂O");
                     triggerIE.setText(String.valueOf(p.getApiData().getProcessed().getTriggerSettings().getIE()));
                 }
             });
