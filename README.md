@@ -1,4 +1,4 @@
-##Inspiration
+## Inspiration
 We did this project for the OpenVent Challenge from Infineon for hackaTUM C0dev1d19.
 
 ## Features
@@ -9,7 +9,7 @@ We did this project for the OpenVent Challenge from Infineon for hackaTUM C0dev1
 ## Collection of resources
 Before we stared programming our application we talked with anesthetist who gets in contact with professional ventilators in his everyday workday. He was able to tell us what are the most significant values of the vent that he needs for his job and what does values mean.
 
-##How our project works
+## How our project works
 A python server collects the data from the ventilators. All necessary data gets forwarded to physicians phone trough an Android Application.
 
 The Application has been built using Java and some OpenSource-libraries to process and display the present data from the ventilators. The data is only received when the human needs it, which is only when he looks in a patient profile. 
