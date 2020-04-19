@@ -257,13 +257,16 @@
                             android:id="@+id/triggerFiO2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
                             android:text="0"
+                            android:textAlignment="textEnd"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                         <TextView
                             android:id="@+id/textView7"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
                             android:text="Humidity"
                             android:textAlignment="textStart"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
@@ -304,13 +307,16 @@
                             android:id="@+id/triggerPmax"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
                             android:text="0"
+                            android:textAlignment="textEnd"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                         <TextView
                             android:id="@+id/textView11"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
                             android:text="RR"
                             android:textAlignment="textStart"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
@@ -351,13 +357,16 @@
                             android:id="@+id/triggerVT"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
                             android:text="0"
+                            android:textAlignment="textEnd"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                         <TextView
                             android:id="@+id/textView16"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
                             android:text="PEEP"
                             android:textAlignment="textStart"
                             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
@@ -399,7 +408,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                            android:textAlignment="textEnd"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                            android:layout_marginRight="10dp" />
                     </TableRow>
                 </TableLayout>
 
