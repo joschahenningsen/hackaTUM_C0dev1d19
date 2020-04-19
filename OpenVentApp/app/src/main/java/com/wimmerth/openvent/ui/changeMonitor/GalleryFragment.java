@@ -19,13 +19,14 @@ import com.wimmerth.openvent.PatientDetailsActiviy;
 import com.wimmerth.openvent.R;
 import com.wimmerth.openvent.connection.AlarmServerConnectionService;
 import com.wimmerth.openvent.connection.BreakConnectionService;
+import com.wimmerth.openvent.connection.Caller;
 import com.wimmerth.openvent.data.Change;
 import com.wimmerth.openvent.data.Patient;
 import com.wimmerth.openvent.ui.home.HomeFragment;
 
 import java.util.List;
 
-public class GalleryFragment extends Fragment implements NewsListAdapter.ViewHolder.ClickListener {
+public class GalleryFragment extends Fragment implements NewsListAdapter.ViewHolder.ClickListener{
 
     public static boolean pause;
     public static List<Change> changes;
@@ -37,6 +38,7 @@ public class GalleryFragment extends Fragment implements NewsListAdapter.ViewHol
         ViewModelProviders.of(this).get(GalleryViewModel.class);
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
         final Button button = root.findViewById(R.id.breakButton);
+        final GalleryFragment g = this;
         if (pause) {
             button.setText(R.string.endBreak);
         } else {
@@ -49,6 +51,11 @@ public class GalleryFragment extends Fragment implements NewsListAdapter.ViewHol
                     button.setText(R.string.newBreak);
                     //BreakConnectionService.endPause(changes);
                     AlarmServerConnectionService.sendSignal("resume");
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     adapter.notifyDataSetChanged();
                 } else {
                     button.setText(R.string.endBreak);

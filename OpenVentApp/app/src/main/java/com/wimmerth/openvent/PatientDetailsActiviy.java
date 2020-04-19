@@ -148,6 +148,8 @@ public class PatientDetailsActiviy extends AppCompatActivity implements CallerMe
                 o2TextView.setText("" + apiData.getProcessed().getExpiredO2());
                 co2TextView.setText("" + apiData.getProcessed().getExpiredCO2());
                 MVeTextView.setText(""+ apiData.getProcessed().getMVe());
+                FlowRateTextView.setText(""+apiData.getProcessed().getFlowrate());
+                PressureTextView.setText(""+apiData.getProcessed().getPressure());
             }
         });
 
